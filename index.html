@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-g">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPI-II 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+      <link rel="icon" type="image/x-icon" href="https://kemendikdasmen.go.id/web/image/website/21/favicon?unique=c3563e4">  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .perspective-container {
+            perspective: 1000px;
+        }
+
+        .card-3d {
+            transform: rotateX(10deg) rotateY(-8deg);
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .perspective-container:hover .card-3d {
+            transform: rotateX(0deg) rotateY(0deg) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        #comingSoonModal.opacity-0,
+        #comingSoonModal .opacity-0 {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        #comingSoonModal .scale-95 {
+             transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-900 text-white min-h-screen flex items-center justify-center p-8">
+
+    <div class="container mx-auto">
+        <header class="text-center mb-16">
+            <h1 class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                BANGBIN MPI-II 2025
+            </h1>
+            <div class="text-gray-400 mt-4 space-y-2">
+                <p class="text-lg">Bintang Adhi Permana</p>
+                <div class="flex items-center justify-center gap-5 pt-1">
+                    <a href="https://wa.me/6281310051985" target="_blank" rel="noopener noreferrer" class="transition-transform hover:scale-110" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp text-green-400 text-2xl"></i>
+                    </a>
+                    <a href="https://bangbin.web.app" target="_blank" rel="noopener noreferrer" class="transition-transform hover:scale-110" aria-label="Website">
+                        <i class="fas fa-star text-yellow-400 text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+
+            <div class="perspective-container">
+                <div class="card-3d relative w-full rounded-2xl overflow-hidden border border-gray-600">
+                    <div class="absolute inset-0 w-full h-full bg-cover bg-center filter blur-sm" style="background-image: url('https://lh3.googleusercontent.com/d/1k-N6DG-MolFrM7sdkGRsV2cJJ8121jLS')"></div>
+                    <div class="absolute inset-0 w-full h-full bg-black/50"></div>
+                    
+                    <div class="p-6 relative">
+                        <h2 class="text-2xl font-bold mb-2 text-white">Game 1: Musik Hebat</h2>
+                        <p class="text-gray-400 mb-6">Jelajahi dunia ritme dan melodi dalam game musik yang seru ini.</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <a href="Musik-Hebat/index.html" class="col-span-2 text-center bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-blue-700 hover:scale-105 transform">
+                                Mainkan Game
+                            </a>
+                            <button id="openStory1Btn" class="text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Story Game
+                            </button>
+                            <button id="openTentang1Btn" class="text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Tentang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="perspective-container">
+                <div class="card-3d relative w-full rounded-2xl overflow-hidden border border-gray-600">
+                    <div class="absolute inset-0 w-full h-full bg-cover bg-center filter blur-sm" style="background-image: url('https://lh3.googleusercontent.com/d/1FlgxZOxQaXOTFE9msQeXZKBHPXZXwMtT')"></div>
+                    <div class="absolute inset-0 w-full h-full bg-black/50"></div>
+
+                    <div class="p-6 relative">
+                        <h2 class="text-2xl font-bold mb-2 text-white">Game 2: Asiknya Beternak</h2>
+                        <p class="text-gray-400 mb-6">Bangun peternakan impianmu dan rawat hewan-hewan lucu.</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <a href="Asiknya-Beternak/index.html" class="col-span-2 text-center bg-green-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-green-700 hover:scale-105 transform">
+                                Mainkan Game
+                            </a>
+                            <button id="openStory2Btn" class="flex-1 text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Story Game
+                            </button>
+                            <button id="openTentang2Btn" class="text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Tentang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="perspective-container">
+                <div class="card-3d relative w-full rounded-2xl overflow-hidden border border-gray-600">
+                    <div class="absolute inset-0 w-full h-full bg-cover bg-center filter blur-sm" style="background-image: url('https://lh3.googleusercontent.com/d/1ty6gnXdMH0mT-mETWd6LDaZkwFQeG9HX')"></div>
+                    <div class="absolute inset-0 w-full h-full bg-black/50"></div>
+                    
+                    <div class="p-6 relative">
+                        <h2 class="text-2xl font-bold mb-2 text-white">Game 3: Versus Pancasila</h2>
+                        <p class="text-gray-400 mb-6">Uji wawasan kebangsaanmu dalam game edukasi yang menantang.</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <a href="versusPancasila/index.html" class="col-span-2 text-center bg-red-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-red-700 hover:scale-105 transform">
+                                Mainkan Game
+                            </a>
+                            <button id="openStory3Btn" class="flex-1 text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Story Game
+                            </button>
+                            <button id="openTentang3Btn" class="text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Tentang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="perspective-container">
+                <div class="card-3d relative w-full rounded-2xl overflow-hidden border border-gray-600">
+                    <div class="absolute inset-0 w-full h-full bg-cover bg-center filter blur-sm" style="background-image: url('https://lh3.googleusercontent.com/d/1oeN2JGLje9b8w85JigM8M03qDnZiMOjQ')"></div>
+                    <div class="absolute inset-0 w-full h-full bg-black/50"></div>
+                    
+                    <div class="p-6 relative">
+                        <h2 class="text-2xl font-bold mb-2 text-white">Game 4: Geo-Challenge</h2>
+                        <p class="text-gray-400 mb-6">Taklukkan Peta Dunia!</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="open-modal-btn col-span-2 text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Mainkan Game
+                            </button>
+                            <button class="open-modal-btn text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Story Game
+                            </button>
+                            <button class="open-modal-btn text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Tentang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="perspective-container">
+                <div class="card-3d relative w-full rounded-2xl overflow-hidden border border-gray-600">
+                    <div class="absolute inset-0 w-full h-full bg-cover bg-center filter blur-sm" style="background-image: url('https://lh3.googleusercontent.com/d/1nvg2Xf9gGIeVzz12KSHe3TlJKjBpijZU')"></div>
+                    <div class="absolute inset-0 w-full h-full bg-black/50"></div>
+                    
+                    <div class="p-6 relative">
+                        <h2 class="text-2xl font-bold mb-2 text-white">Game 5: Sang Arsitek Bangsa</h2>
+                        <p class="text-gray-400 mb-6">Menelusuri Jejak Perumus Pancasila.</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="open-modal-btn col-span-2 text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Mainkan Game
+                            </button>
+                            <button class="open-modal-btn text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Story Game
+                            </button>
+                            <button class="open-modal-btn text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Tentang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="perspective-container">
+                <div class="card-3d relative w-full rounded-2xl overflow-hidden border border-gray-600">
+                    <div class="absolute inset-0 w-full h-full bg-cover bg-center filter blur-sm" style="background-image: url('https://lh3.googleusercontent.com/d/1QhvzgHwMVCl24CwpfMlpLEdQNxABqXCA')"></div>
+                    <div class="absolute inset-0 w-full h-full bg-black/50"></div>
+                    
+                    <div class="p-6 relative">
+                        <h2 class="text-2xl font-bold mb-2 text-white">Game 6: Ekspedisi Cakrawala</h2>
+                        <p class="text-gray-400 mb-6">Misi Menguak Bentang Alam.</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="open-modal-btn col-span-2 text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Mainkan Game
+                            </button>
+                            <button class="open-modal-btn text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Story Game
+                            </button>
+                            <button class="open-modal-btn text-center bg-gray-600 text-white px-5 py-3 rounded-lg font-semibold transition duration-300 hover:bg-gray-700 hover:scale-105 transform">
+                                Tentang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> 
+    </div> 
+
+
+    <div id="comingSoonModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 transition-opacity duration-300 hidden opacity-0">
+        <div id="modalBox" class="modal-box-animate bg-gray-800 rounded-lg shadow-xl p-8 max-w-sm w-full mx-4 transform transition-all duration-300 scale-95 opacity-0 border border-gray-700 text-center">
+            <img src="Asiknya-Beternak/image/bangbin.gif" alt="Segera Hadir" class="w-[100px] h-[200px] object-cover mx-auto mb-6 rounded-full shadow-lg" onerror="this.src='https://placehold.co/100x200/1F2937/E5E7EB?text=GIF+Error'; this.onerror=null;">
+            
+            <h2 class="text-2xl font-bold text-white mb-4">Segera Hadir!</h2>
+            <p class="text-gray-300 mb-6">
+                Fitur "Story Game" untuk game ini sedang dalam pengembangan. Nantikan pembaruan selanjutnya!
+            </p>
+            <button id="closeModalBtn" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+
+    <div id="story1Modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 transition-opacity duration-300 hidden opacity-0">
+        <div id="story1ModalBox" class="modal-box-animate bg-gray-800 rounded-lg shadow-xl p-6 max-w-4xl w-full mx-4 transform transition-all duration-300 scale-95 opacity-0 border border-gray-700 flex flex-col" style="height: 90vh;">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-white">Story Game: Musik Hebat</h2>
+                <button id="closeStory1Btn_x" class="text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="flex-1 w-full h-full bg-gray-900 rounded-md overflow-hidden border border-gray-700">
+                <iframe class="w-full h-full" src="https://docs.google.com/document/d/e/2PACX-1vS8YWINR9JAbnBAGvgkSB7-_A-1qnO8_C-TgbgOJN4osQXFh5qqzQPa8UL5220WjY6bj4-0h5PRLdwv/pub?embedded=true"></iframe>
+            </div>
+            <button id="closeStory1Btn" class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <div id="tentangModal1" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 transition-opacity duration-300 hidden opacity-0">
+        <div class="modal-box-animate bg-gray-800 rounded-lg shadow-xl p-8 max-w-lg w-full mx-4 transform transition-all duration-300 scale-95 opacity-0 border border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-white">Tentang: Musik Hebat</h2>
+                <button class="close-btn-global text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <p class="text-gray-300 mb-6">
+                <strong>Musik Hebat</strong> adalah game edukasi interaktif yang dirancang untuk mengenalkan pemain pada berbagai alat musik tradisional dan modern. Pemain akan belajar mengidentifikasi suara (Level 1), mengelompokkan alat musik (Level 2), menguji ingatan (Level 3), dan melatih refleks (Level 4) dalam petualangan musik yang menyenangkan.
+            </p>
+            <button class="close-btn-global w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-blue-700">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <div id="tentangModal2" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 transition-opacity duration-300 hidden opacity-0">
+        <div class="modal-box-animate bg-gray-800 rounded-lg shadow-xl p-8 max-w-lg w-full mx-4 transform transition-all duration-300 scale-95 opacity-0 border border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-white">Tentang: Asiknya Beternak</h2>
+                <button class="close-btn-global text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <p class="text-gray-300 mb-6">
+                <strong>Asiknya Beternak (Panggil Aku Mooooo!!!)</strong> adalah buku cerita digital interaktif. Game ini dirancang untuk siswa Fase A (Kelas 1) untuk melatih keterampilan membaca dan menyimak. Siswa akan belajar tentang hewan ternak, suara mereka, dan produk yang mereka hasilkan melalui aktivitas interaktif dan kuis yang menarik.
+            </p>
+            <button class="close-btn-global w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-blue-700">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <div id="tentangModal3" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 transition-opacity duration-300 hidden opacity-0">
+        <div class="modal-box-animate bg-gray-800 rounded-lg shadow-xl p-8 max-w-lg w-full mx-4 transform transition-all duration-300 scale-95 opacity-0 border border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-white">Tentang: Versus Pancasila</h2>
+                <button class="close-btn-global text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <p class="text-gray-300 mb-6">
+                <strong>Duel Cerdas: Versus Pancasila</strong> adalah game 2 pemain (multiplayer lokal) yang kompetitif. Pemain akan adu cepat dalam 3 level mini-game: Pilihan Ganda (Level 1), Drag-and-Drop (Level 2), dan Memory Game (Level 3). Tujuannya adalah untuk menguji dan memperkuat pengetahuan pemain tentang lambang dan urutan sila Pancasila.
+            </p>
+            <button class="close-btn-global w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-blue-700">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+
+    <div id="story2Modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 transition-opacity duration-300 hidden opacity-0">
+        <div id="story2ModalBox" class="modal-box-animate bg-gray-800 rounded-lg shadow-xl p-6 max-w-4xl w-full mx-4 transform transition-all duration-300 scale-95 opacity-0 border border-gray-700 flex flex-col" style="height: 90vh;">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-white">Story Game: Asiknya Beternak</h2>
+                <button id="closeStory2Btn_x" class="text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="flex-1 w-full h-full bg-gray-900 rounded-md overflow-hidden border border-gray-700">
+                <iframe class="w-full h-full" src="https://docs.google.com/document/d/e/2PACX-1vQcBcWLbxxIJRbj7RoI49mcqVSHB7AFGkRrU8Hh4aIJypipma7OSZETOPC8qYvxsHn1dL-ZDz0Yzfhe/pub?embedded=true"></iframe>
+            </div>
+            <button id="closeStory2Btn" class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <div id="story3Modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 transition-opacity duration-300 hidden opacity-0">
+        <div id="story3ModalBox" class="modal-box-animate bg-gray-800 rounded-lg shadow-xl p-6 max-w-4xl w-full mx-4 transform transition-all duration-300 scale-95 opacity-0 border border-gray-700 flex flex-col" style="height: 90vh;">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-white">Story Game: Versus Pancasila</h2>
+                <button id="closeStory3Btn_x" class="text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="flex-1 w-full h-full bg-gray-900 rounded-md overflow-hidden border border-gray-700">
+                <iframe class="w-full h-full" src="https://docs.google.com/document/d/e/2PACX-1vQL-fcHwkVVHN7-KxALmJHAhwpby07LFnuajF6A7zACj21zaBa2gB70mQh4e6frQLXdLPvJVB2yZ6tF/pub?embedded=true"></iframe>
+            </div>
+            <button id="closeStory3Btn" class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const modals = {
+                comingSoon: document.getElementById('comingSoonModal'),
+                story1: document.getElementById('story1Modal'),
+                story2: document.getElementById('story2Modal'), 
+                story3: document.getElementById('story3Modal'), 
+                tentang1: document.getElementById('tentangModal1'),
+                tentang2: document.getElementById('tentangModal2'),
+                tentang3: document.getElementById('tentangModal3'),
+            };
+
+            const openModal = (modalElement) => {
+                if (!modalElement) return;
+                modalElement.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    modalElement.classList.remove('opacity-0');
+                    const modalBox = modalElement.querySelector('.modal-box-animate'); 
+                    if (modalBox) {
+                        modalBox.classList.remove('opacity-0', 'scale-95');
+                    }
+                });
+            };
+
+            const closeModal = (modalElement) => {
+                if (!modalElement) return;
+                const modalBox = modalElement.querySelector('.modal-box-animate'); 
+                
+                modalElement.classList.add('opacity-0');
+                if (modalBox) {
+                    modalBox.classList.add('opacity-0', 'scale-95');
+                }
+                
+                setTimeout(() => {
+                    modalElement.classList.add('hidden');
+                }, 300); 
+            };
+
+            document.querySelectorAll('.open-modal-btn').forEach(button => {
+                button.addEventListener('click', () => openModal(modals.comingSoon));
+            });
+
+            document.getElementById('openStory1Btn')?.addEventListener('click', () => openModal(modals.story1));
+
+            document.getElementById('openStory2Btn')?.addEventListener('click', () => openModal(modals.story2));
+            document.getElementById('openStory3Btn')?.addEventListener('click', () => openModal(modals.story3));
+
+            document.getElementById('openTentang1Btn')?.addEventListener('click', () => openModal(modals.tentang1));
+            document.getElementById('openTentang2Btn')?.addEventListener('click', () => openModal(modals.tentang2));
+            document.getElementById('openTentang3Btn')?.addEventListener('click', () => openModal(modals.tentang3));
+
+            document.getElementById('closeModalBtn')?.addEventListener('click', () => closeModal(modals.comingSoon));
+            
+            document.getElementById('closeStory1Btn')?.addEventListener('click', () => closeModal(modals.story1));
+            document.getElementById('closeStory1Btn_x')?.addEventListener('click', () => closeModal(modals.story1));
+            
+            document.getElementById('closeStory2Btn')?.addEventListener('click', () => closeModal(modals.story2));
+            document.getElementById('closeStory2Btn_x')?.addEventListener('click', () => closeModal(modals.story2));
+            document.getElementById('closeStory3Btn')?.addEventListener('click', () => closeModal(modals.story3));
+            document.getElementById('closeStory3Btn_x')?.addEventListener('click', () => closeModal(modals.story3));
+
+            document.querySelectorAll('#tentangModal1 .close-btn-global').forEach(btn => btn.addEventListener('click', () => closeModal(modals.tentang1)));
+            document.querySelectorAll('#tentangModal2 .close-btn-global').forEach(btn => btn.addEventListener('click', () => closeModal(modals.tentang2)));
+            document.querySelectorAll('#tentangModal3 .close-btn-global').forEach(btn => btn.addEventListener('click', () => closeModal(modals.tentang3)));
+
+            Object.values(modals).forEach(modalElement => {
+                if (modalElement) {
+                    modalElement.addEventListener('click', (event) => {
+                        if (event.target === modalElement) {
+                            closeModal(modalElement);
+                        }
+                    });
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    Object.values(modals).forEach(modalElement => {
+                        if (modalElement && !modalElement.classList.contains('hidden')) {
+                            closeModal(modalElement);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
