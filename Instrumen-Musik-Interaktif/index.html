@@ -1,0 +1,2214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusat Alat Musik Interaktif</title>
+    <link href="style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style/fontawesome/css/all.min.css" rel="stylesheet">
+	<link href="style/font/bangbinFonts.css" rel="stylesheet">
+    <link rel="icon" href="bangbinImg/favicon.ico" type="image/x-icon">
+
+    <style>
+
+
+
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #1e3a8a; 
+            background-image: linear-gradient(to bottom, #3b82f6, #1e3a8a); 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+        }
+
+        main {
+            flex-grow: 1;
+            position: relative;
+            z-index: 10; 
+        }
+
+        .section-content {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 1;
+            transition: opacity 0.3s;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; 
+        }
+        .section-content.hidden {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            position: absolute;
+        }
+
+        .screen-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            min-height: 100%; 
+        }
+
+        /* 3D Button Styles */
+        .btn-3d {
+            background-color: #ea0808;
+            color: #3b82f6;
+            font-weight: 700;
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            border: none; 
+            border-bottom: 5px solid #e2e8f0;
+            transition: all 0.1s ease-in-out;
+            transform: translateY(0);
+            box-shadow: none; 
+        }
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            border-bottom-width: 7px;
+            filter: brightness(1.05);
+        }
+        .btn-3d:active {
+            transform: translateY(1px);
+            border-bottom-width: 4px;
+            filter: brightness(0.95);
+        }
+        .btn-3d.green {
+            background-color: #22c55e;
+            color: white;
+            border-bottom-color: #16a34a;
+        }
+        .btn-3d.yellow {
+            background-color: #eab308;
+            color: white;
+            border-bottom-color: #ca8a04;
+        }
+        .btn-3d.red {
+            background-color: #ef4444;
+            color: white;
+            border-bottom-color: #dc2626;
+        }
+
+        
+        /* Map Styles */
+        .map-btn-container {
+            position: relative;
+            width: 95%; 
+            height: 90vh;
+        }
+
+        .map-btn {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease, filter 0.2s ease, opacity 0.3s ease; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .map-btn .map-icon {
+            font-size: 4rem; 
+            color: #f00639; 
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            animation: bounce 2s infinite ease-in-out; 
+            transition: filter 0.3s ease, color 0.3s ease;
+            position: relative; 
+            z-index: 1;
+        }
+
+        /* Specific Button Colors */
+        .map-btn#map-btn-materi .map-icon { color: #2196F3; } 
+        .map-btn#map-btn-final .map-icon { color: #FFC107; } 
+
+        .map-btn:hover:not(.locked) .map-icon {
+            transform: translateY(-5px); 
+            filter: drop-shadow(0 6px 8px rgba(0,0,0,0.4));
+            animation-play-state: paused; 
+        }
+        .map-btn:active:not(.locked) .map-icon {
+            transform: translateY(0px); 
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+            animation-play-state: paused;
+        }
+
+        .map-btn .map-btn-text {
+            margin-top: 0.5rem;
+            color: white; 
+            font-weight: 700;
+            font-size: 1.1rem; 
+            pointer-events: none; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .map-btn.locked {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .map-btn.locked .map-icon {
+            color: #888 !important; 
+            animation: none; 
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        }
+        .map-btn.locked:hover .map-icon {
+            transform: none;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .map-background-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 1800px; 
+            height: auto;
+            z-index: 0; 
+            pointer-events: none; 
+        }
+
+        #main-title {
+            font-family: 'Luckiest Guy', cursive;
+            color: white;
+            text-shadow: 
+                -2px -2px 0 #14532d,  
+                 2px -2px 0 #14532d,
+                -2px  2px 0 #14532d,
+                 2px  2px 0 #14532d,
+                 4px  4px 2px rgba(0,0,0,0.3); 
+            
+            position: absolute;
+            top: 15%;
+			left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150%; 
+            text-align: center;
+            z-index: 10;
+            pointer-events: none; 
+            margin: 0; 
+        }
+
+        /* Map Button Positions */
+        #map-btn-materi { bottom: 20%; left: 25%; transform: translateX(-50%); }
+        #map-btn-level1 { bottom: 40%; left: 32%; }
+        #map-btn-level2 { top: 25%; left: 35%; transform: translateX(-50%); }		
+        #map-btn-level3 { top: 40%; left: 45%; }
+        #map-btn-level4 { bottom: 37%; right: 20%; }
+        #map-btn-final { bottom: 25%; right: 45%; }
+        
+        /* Sidebar Menu */
+        .sidebar-menu {
+            position: absolute;
+            top: 25%;
+            right: 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 20;
+        }
+        .sidebar-menu button {
+            background-color: #eab308; 
+            color: #1e3a8a; 
+            font-weight: 700;
+            border: 3px solid #ca8a04; 
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.1s, background-color 0.1s;
+            width: 100%;
+        }
+        .sidebar-menu button:hover {
+            background-color: #f59e0b; 
+            transform: scale(1.05);
+        }
+        .sidebar-menu button:active {
+            transform: scale(0.95);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar-menu {
+                flex-direction: row;
+                top: auto;
+                bottom: 5px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 95%;
+                gap: 0.3rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .sidebar-menu button {
+                padding: 0.3rem 0.5rem;
+                font-size: 0.75rem;
+                min-width: 60px;
+                width: auto;
+            }
+        }
+
+        /* Map Responsive Adjustments */
+        @media (max-width: 768px) {
+            .map-btn-container { height: 600px; }
+            .map-btn { width: 80px; height: 80px; }
+            .map-btn .map-icon { font-size: 3rem; }
+            .map-btn .map-btn-text { font-size: 0.9rem; }
+            
+            #map-btn-level1 { bottom: 80px; right: 20px; }
+            #map-btn-level2 { top: 80px; right: 20px; }
+            #map-btn-level3 { top: 20px; }
+            #map-btn-level4 { top: 80px; left: 20px; }
+            #map-btn-final { bottom: 80px; left: 20px; }
+            #map-btn-materi { bottom: 20px; }
+        }
+        
+        @media (max-width: 480px) {
+            .map-btn-container { height: 700px; margin-top: 1rem; }
+            .map-btn { width: 70px; height: 70px; }
+            .map-btn .map-icon { font-size: 2.5rem; }
+             .map-btn .map-btn-text { font-size: 0.8rem; }
+            #map-btn-level1 { bottom: 100px; right: 10px; }
+            #map-btn-level2 { top: 100px; right: 10px; }
+            #map-btn-level3 { top: 30px; }
+            #map-btn-level4 { top: 100px; left: 10px; }
+            #map-btn-final { bottom: 100px; left: 10px; }
+            #map-btn-materi { bottom: 40px; }
+        }
+
+        /* Materi Card */
+        .materi-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(5px); 
+        }
+        .materi-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: white;
+        }
+        .materi-card img {
+            width: 100%;
+            height: 120px; 
+            object-fit: contain; 
+            margin-bottom: 0.75rem;
+        }
+        .materi-card p {
+            font-weight: 600;
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        /* Modals */
+        #infoModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5); 
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+        #infoModal.hidden {
+            display: none !important; 
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Game 1 Styles */
+        .game1-choice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        @media (min-width: 640px) {
+            .game1-choice-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        .game1-choice-btn {
+            border: 4px solid transparent;
+            transition: all 0.3s;
+        }
+        .game1-choice-btn:hover {
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        
+        .feedback-correct {
+            animation: pulse-green 0.5s;
+        }
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
+            50% { box-shadow: 0 0 20px 10px rgba(22, 163, 74, 0); }
+        }
+        .feedback-wrong {
+            animation: shake-red 0.5s;
+        }
+        @keyframes shake-red {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Game 2 Drag & Drop */
+        .dropzone {
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            min-height: 150px;
+            transition: background-color 0.3s;
+        }
+        .dropzone-over {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-style: solid;
+        }
+        .draggable-item {
+            cursor: grab;
+            transition: transform 0.2s, opacity 0.2s;
+            touch-action: none; 
+        }
+
+        .draggable-item {
+            width: clamp(70px, 12vw, 140px) !important;
+            height: clamp(70px, 12vw, 140px) !important;
+            transition: width 0.18s ease, height 0.18s ease, transform 0.18s ease;
+            object-fit: contain;
+        }
+
+        .draggable-item.small {
+            width: clamp(40px, 5vw, 30px) !important;
+            height: clamp(40px, 5vw, 30px) !important;
+        }
+        
+        .dragging {
+            opacity: 0.4;
+            transform: scale(1.1);
+        }
+        .ghost {
+            position: absolute;
+            pointer-events: none; 
+            z-index: 1000;
+            transition: none; 
+            opacity: 0.8;
+            transform: scale(1.1); 
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem;
+        }
+        .dropzone .draggable-item {
+            cursor: default;
+        }
+        
+        /* Game 3 Memory  */
+        #game3-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 1rem;
+            max-width: 1200px; 
+            margin: 0 auto;
+        }
+        @media (min-width: 600px) {
+             #game3-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        @media (min-width: 992px) {
+             #game3-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+
+        .card {
+            aspect-ratio: 1 / 1;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card-front {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+        }
+        .card-front i {
+            font-size: 3rem;
+            color: #1e3a8a; 
+            opacity: 0.8;
+        }
+        .card-back {
+            background-color: white;
+            transform: rotateY(180deg);
+            padding: 0.5rem;
+        }
+        .card-back img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+        }
+        .card.matched {
+            opacity: 0.3;
+            cursor: default;
+        }
+        .card.matched .card-inner {
+            transform: rotateY(180deg); 
+        }
+        #game3-popup {
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        /* Game 4 Canvas */
+        #game4-canvas {
+            display: block;
+            width: 90%; 
+            max-width: 1000px; 
+            height: 90vh; 
+            aspect-ratio: 4 / 3;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            margin: 0 auto;
+            cursor: none; 
+            touch-action: none;
+        }
+        
+        /* Navigation */
+        .home-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            font-size: 1.5rem; 
+            padding: 0.5rem 0.8rem; 
+            line-height: 1;
+        }
+        @media (min-width: 768px) {
+            .home-btn {
+                top: 2rem;
+                right: 2rem;
+                font-size: 2rem;
+            }
+        }
+
+        .modal-profile-content {
+            background: linear-gradient(135deg, #4e54c8, #8f94fb) !important; 
+            color: white !important;
+            padding: 25px !important;
+            border-radius: 15px !important;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3) !important;
+            position: relative;
+            text-align: left;
+            overflow: hidden; 
+        }
+        
+        .modal-profile-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1); 
+            z-index: 1;
+        }
+
+        .modal-main-content-profile {
+            position: relative;
+            z-index: 2; 
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 10px; 
+            box-sizing: border-box;
+        }
+
+        .profile-pic-container {
+            perspective: 1000px; 
+            border-radius: 50%;
+            width: 120px; 
+            height: 120px; 
+            flex-shrink: 0;
+            margin-right: 20px;
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            border: 4px solid white; 
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-pic-container img {
+            transition: transform 0.2s ease-out; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block;
+            border-radius: 50%; 
+        }
+
+        .profile-text h2 {
+            font-family: 'Fredoka One', cursive; 
+            color: white !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 1.5rem !important;
+            line-height: 1.2;
+        }
+        
+        .profile-text p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: #ecf0f1;
+        }
+        
+        .social-icons .fab { 
+            transition: transform 0.3s ease, color 0.3s ease; 
+        }
+
+        .social-icons .fab:hover {
+            color: #F1C40F; 
+            animation: icon-wobble 0.6s ease-in-out; 
+        }
+
+        @keyframes icon-wobble {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-15deg) scale(1.1); }
+            50% { transform: rotate(10deg) scale(1.1); }
+            75% { transform: rotate(-5deg) scale(1.1); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+
+        .modal-bg-image-profile { 
+            position: absolute;
+            right: 0; 
+            top: 0;
+            height: 100%;
+            opacity: 0.2; 
+            pointer-events: none; 
+            z-index: 0; 
+            object-fit: cover; 
+            width: auto; 
+            transform: translateX(20%); 
+        }
+
+        @media (max-width: 768px) {
+            .modal-main-content-profile {
+                flex-direction: column; 
+                text-align: center;
+            }
+            .profile-pic-container {
+                margin-right: 0;
+                margin-bottom: 20px; 
+                width: 100px; 
+                height: 100px;
+            }
+            .profile-text {
+                text-align: center;
+            }
+            .profile-text h2, .profile-text p {
+                text-align: center !important; 
+            }
+            .social-icons {
+                justify-content: center; 
+            }
+            .modal-bg-image-profile {
+                width: 150%; 
+                height: auto;
+                object-fit: contain; 
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        .hak-cipta-container {
+            font-family: 'Fredoka', sans-serif; 
+            position: relative;
+            color: #000;
+            text-align: center;
+            overflow: hidden; 
+            padding: 20px 40px; 
+        }
+
+        .hc-logo-top {
+            width: 80px; 
+            margin-bottom: 15px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hc-header h2, .hc-header h3, .hc-header h4 {
+            margin: 5px 0;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #000;
+            text-shadow: none;
+            line-height: 1.2;
+        }
+
+        .hc-header h2 { font-size: 1.1em; }
+        .hc-header h3 { font-size: 1.0em; }
+        .hc-header h4 { font-size: 0.9em; }
+
+        .hc-line {
+            width: 100%;
+            height: 2px;
+            background-color: #F39C12;
+            margin: 15px 0 30px 0;
+        }
+
+        .hc-content-wrapper {
+            position: relative;
+            text-align: left;
+            padding: 0;
+        }
+
+        .hc-watermark {
+            position: absolute;
+            top: 45%;
+            right: 0%;
+            transform: translate(20%, -50%) rotate(-15deg);
+            width: 60%;
+            max-width: 500px;
+            opacity: 0.1; 
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hc-watermark img {
+            width: 100%;
+            height: auto;
+        }
+
+        .hc-details {
+            position: relative;
+            z-index: 1; 
+            display: grid;
+            grid-template-columns: 180px 20px 1fr; 
+            gap: 10px;
+            font-size: 0.95em;
+        }
+
+        .hc-label {
+            font-weight: bold;
+            color: #3498DB; 
+            text-align: left;
+        }
+
+        .hc-sep {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .hc-value {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .hc-row-spacer {
+            grid-column: 1 / -1;
+            height: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .hak-cipta-container {
+                padding: 15px;
+            }
+            .hc-details {
+                grid-template-columns: 1fr; 
+                text-align: center;
+            }
+            .hc-sep { display: none; }
+            .hc-label { 
+                margin-bottom: 2px; 
+                color: #2980B9; 
+                text-align: center;
+            }
+            .hc-value { margin-bottom: 15px; text-align: center;}
+            .hc-header h2 { font-size: 1em; }
+            .hc-watermark { opacity: 0.05; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        }
+
+    </style>
+</head>
+<body class="bg-gray-900 text-white overflow-hidden">
+    
+    <!-- Main Content Area -->
+    <main class="w-100 position-relative">
+        <section id="section-map" class="section-content" style="position: relative;">
+            <div class="screen-container position-relative" style="z-index: 2;">
+                
+                <div class="map-btn-container">
+                    <!-- Background Map -->
+                    <img src="bangbinImg/BangbinBg.png" alt="Alas Peta" class="map-background-image">
+                    
+                    <h1 id="main-title" class="fs-1 fs-md-0 fw-bold">Instrumen Musik Interaktif</h1>
+
+                    <!-- Buttons on Map -->
+                    <button id="map-btn-materi" class="map-btn">
+                        <i class="fa-solid fa-location-dot map-icon"></i>
+                        <span class="map-btn-text">Mulai</span>
+                    </button>
+                    
+                    <button id="map-btn-level1" class="map-btn">
+                        <i class="fa-solid fa-location-dot map-icon"></i>
+                        <span class="map-btn-text">Level 1</span>
+                    </button>
+                    
+                    
+                    <button id="map-btn-level2" class="map-btn">
+                        <i class="fa-solid fa-location-dot map-icon"></i>
+                        <span class="map-btn-text">Level 2</span>
+                    </button>
+                    
+                    <button id="map-btn-level3" class="map-btn">
+                        <i class="fa-solid fa-location-dot map-icon"></i>
+                        <span class="map-btn-text">Level 3</span>
+                    </button>
+                    
+                    <button id="map-btn-level4" class="map-btn">
+                        <i class="fa-solid fa-location-dot map-icon"></i>
+                        <span class="map-btn-text">Level 4</span>
+                    </button>
+                    
+                    <button id="map-btn-final" class="map-btn">
+                        <i class="fa-solid fa-location-dot map-icon"></i>
+                        <span class="map-btn-text">Selesai</span>
+                    </button>
+                </div>
+                
+                <!-- Sidebar Menu -->
+                <div class="sidebar-menu">
+                    <!-- Purpose Button -->
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#infoModalPurpose">
+                        <i class="fa-solid fa-bullseye me-2"></i> Tujuan
+                    </button>
+                    
+                    <!-- Instructions Button -->
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#infoModalInstructions">
+                        <i class="fa-solid fa-hand-pointer me-2"></i> Petunjuk
+                    </button>
+                    
+                    <!-- Library Button -->
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#infoModalLibrary">
+                        <i class="fa-solid fa-book-open-reader me-2"></i> Pustaka
+                    </button>
+                    
+                    <!-- Profile Button -->
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#infoModalProfile">
+                        <i class="fa-solid fa-circle-user me-2"></i> Profil
+                    </button>
+
+                    <!-- Copyright Button (Requested Addition) -->
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#infoModalCopyright">
+                        <i class="fa-solid fa-copyright me-2"></i> Hak Cipta
+                    </button>
+                </div>
+                
+
+            </div>
+        </section>
+
+
+        <!-- Materi Screen -->
+        <section id="section-materi" class="section-content hidden">
+            
+            <div class="w-100 h-100 overflow-auto p-4 p-md-5">
+                <!-- Header -->
+                <div class="content-wrapper text-center mb-4 mb-md-5">
+                    <h1 class="fs-1 fs-md-0 fw-bold mb-2 text-shadow-lg text-white">Galeri Alat Musik</h1>
+                    <p class="fs-5 fs-md-4 text-white mb-4">Klik pada alat musik untuk melihat informasi.</p>
+                    <button id="materi-back-btn" class="btn-3d btn-sm">
+                        <i class="fa-solid fa-map me-2"></i> Kembali ke Peta
+                    </button>
+                </div>
+                
+                <!-- Grid -->
+                <div id="materi-grid" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-4 g-3 g-md-4 mx-auto pb-5" style="max-width: 1200px;">
+                    <!-- Items injected by JS -->
+                </div>
+            </div>
+
+            <!-- Info Modal (Custom) -->
+            <div id="infoModal" class="hidden">
+                <div class="modal-dialog modal-dialog-centered w-100 m-3" style="max-width: 500px; transform: none;">
+                    <div class="modal-content text-dark rounded-4 shadow-lg p-3 p-md-4" style="background-color: white;">
+                        <button id="closeModal" class="btn-close position-absolute top-0 end-0 m-3" style="font-size: 1.5rem; opacity: 0.8;"></button>
+                        <div class="d-flex flex-column flex-md-row align-items-center gap-4">
+                            <!-- Image -->
+                            <img id="modalImage" src="" alt="Alat Musik" data-name="Nama Alat" class="w-25 h-25 w-md-30 h-md-30 object-fit-contain flex-shrink-0 rounded-3" 
+                                onerror="this.src='https://placehold.co/128x128/e2e8f0/94a3b8?text=' + encodeURIComponent(this.dataset.name).substring(0, 10); this.style.fontSize='10px'; this.style.fontWeight='bold'; this.style.objectFit='contain';">
+                            <div class="text-center text-md-start w-100">
+                                <h2 id="modalTitle" class="fs-3 fw-bold mb-2 text-primary"></h2>
+                                <p class="mb-1"><strong class="fw-semibold text-secondary">Jenis:</strong> <span id="modalJenis"></span></p>
+                                <p class="mb-1"><strong class="fw-semibold text-secondary">Cara Memainkan:</strong> <span id="modalCara"></span></p>
+                                <p class="mb-3"><strong class="fw-semibold text-secondary">Asal:</strong> <span id="modalAsal"></span></p>
+                                <p id="modalDeskripsi" class="text-sm text-secondary border-top pt-2"></p>
+                                
+                                <button id="playSoundBtn" class="mt-3 w-100 w-md-auto btn btn-primary fw-bold py-2 px-4 rounded-3 d-flex align-items-center justify-content-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
+                                    Dengarkan Suara
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Level 1 -->
+        <section id="section-game-1" class="section-content hidden p-4 p-md-5 text-white">
+            <!-- Home Button -->
+            <button class="btn-3d yellow home-btn" data-target-screen="section-map">
+                <i class="fa-solid fa-house"></i>
+            </button>
+            
+            <div class="container" style="max-width: 700px; position: relative; z-index: 2;">
+                <div class="text-center">
+                    <h1 class="fs-3 fs-md-2 fw-bold mb-3">Level 1: Tebak Suara</h1>
+                    <p class="fs-5 text-white mb-4">Dengarkan suara, lalu pilih gambar alat musik yang tepat. (Menang: 3 Benar)</p>
+                    
+                    <div class="bg-light bg-opacity-10 p-4 p-md-5 rounded-4 shadow-lg">
+                        <!-- Play Sound Button -->
+                        <button id="game1-play-sound" class="btn btn-primary fw-bold py-3 px-5 rounded-3 d-flex align-items-center justify-content-center gap-3 fs-5 mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
+                            Mainkan Suara
+                        </button>
+
+                        <!-- Choice Grid -->
+                        <div id="game1-choice-grid" class="game1-choice-grid mb-3">
+                            <!-- Choices injected by JS -->
+                        </div>
+
+                        <!-- Feedback -->
+                        <div id="game1-feedback" class="h-auto fs-5 fw-semibold mb-3"></div>
+
+                        <!-- Next Button -->
+                        <button id="game1-next" class="btn btn-success fw-bold py-3 px-5 rounded-3 fs-5 d-none">
+                            Lanjut!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Level 2 -->
+        <section id="section-game-2" class="section-content hidden p-4 p-md-5 text-white">
+            <!-- Home Button -->
+            <button class="btn-3d yellow home-btn" data-target-screen="section-map">
+                <i class="fa-solid fa-house"></i>
+            </button>
+            
+            <div class="container-fluid" style="max-width: 1200px; position: relative; z-index: 2;">
+                <div class="text-center">
+                    <h1 class="fs-3 fs-md-2 fw-bold mb-3">Level 2: Kelompokkan Alat Musik</h1>
+                    <p class="fs-5 text-white mb-4">Drag and drop (atau seret) 8 alat musik ke kategori yang benar.</p>
+                </div>
+
+                <!-- Dropzones -->
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-3 mb-4">
+                    <div class="col">
+                        <div class="dropzone rounded-3 p-3" data-category="Dipukul">
+                            <h3 class="fw-bold fs-4 mb-3 text-center border-bottom pb-2">Dipukul</h3>
+                            <div class="d-flex flex-wrap gap-2 justify-content-center drop-area min-vh-25"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="dropzone rounded-3 p-3" data-category="Ditiup">
+                            <h3 class="fw-bold fs-4 mb-3 text-center border-bottom pb-2">Ditiup</h3>
+                            <div class="d-flex flex-wrap gap-2 justify-content-center drop-area min-vh-25"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="dropzone rounded-3 p-3" data-category="Dipetik">
+                            <h3 class="fw-bold fs-4 mb-3 text-center border-bottom pb-2">Dipetik</h3>
+                            <div class="d-flex flex-wrap gap-2 justify-content-center drop-area min-vh-25"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="dropzone rounded-3 p-3" data-category="Digesek">
+                            <h3 class="fw-bold fs-4 mb-3 text-center border-bottom pb-2">Digesek</h3>
+                            <div class="d-flex flex-wrap gap-2 justify-content-center drop-area min-vh-25"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="dropzone rounded-3 p-3" data-category="Diguncang">
+                            <h3 class="fw-bold fs-4 mb-3 text-center border-bottom pb-2">Diguncang</h3>
+                            <div class="d-flex flex-wrap gap-2 justify-content-center drop-area min-vh-25"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Draggable Items Bank -->
+                <h2 class="fs-3 fw-bold text-center mb-3 text-white">Alat Musik</h2>
+                <div id="game2-item-bank" class="bg-light bg-opacity-10 p-4 rounded-4 shadow-lg min-vh-15 d-flex flex-wrap justify-content-center align-items-center gap-3">
+                    <!-- Items injected by JS -->
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button id="game2-reset" class="btn-3d yellow fs-5">
+                        <i class="fa-solid fa-arrows-rotate me-2"></i> Reset Game
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Game Level 3 -->
+        <section id="section-game-3" class="section-content hidden p-4 p-md-5 text-white">
+            <!-- Home Button -->
+            <button class="btn-3d yellow home-btn" data-target-screen="section-map">
+                <i class="fa-solid fa-house"></i>
+            </button>
+            
+            <div class="container" style="max-width: 1200px; position: relative; z-index: 2;">
+                <div class="text-center">
+                    <h1 class="fs-3 fs-md-2 fw-bold mb-3">Level 3: Memory Game</h1>
+                    <p class="fs-5 text-white mb-4">Cari 6 pasang alat musik yang sama!</p>
+                    
+                    <div class="bg-light bg-opacity-10 p-4 p-md-5 rounded-4 shadow-lg">
+                        <!-- Feedback -->
+                        <div id="game3-feedback" class="h-auto fs-4 fw-semibold mb-4 text-white">
+                            Pasangan Ditemukan: 0 / 6
+                        </div>
+                        
+                        <!-- Grid Container -->
+                        <div id="game3-grid" class="mb-4">
+                            <!-- Cards injected by JS -->
+                        </div>
+                        
+                        <!-- Reset -->
+                        <button id="game3-reset" class="btn-3d yellow fs-5">
+                            <i class="fa-solid fa-arrows-rotate me-2"></i> Reset Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Game Level 4 -->
+        <section id="section-game-4" class="section-content hidden p-4 p-md-5 text-white">
+            <!-- Home Button -->
+            <button class="btn-3d yellow home-btn" data-target-screen="section-map">
+                <i class="fa-solid fa-house"></i>
+            </button>
+            
+            <!-- UPDATED: CONTAINER WIDTH INCREASED TO 1200px -->
+            <div class="container" style="max-width: 1200px; position: relative; z-index: 2;">
+                <div class="text-center">
+                    <h1 class="fs-3 fs-md-2 fw-bold mb-3">Level 4: Tangkap Suara</h1>
+                    <p class="fs-5 text-white mb-4">Dengarkan suara target, lalu tangkap 5 alat musik yang sesuai!</p>
+                    
+                    <div class="bg-light bg-opacity-10 p-4 p-md-5 rounded-4 shadow-lg">
+                        <!-- Stats -->
+                        <div class="d-flex flex-column flex-sm-row justify-content-around align-items-center mb-4 gap-3">
+                            <button id="game4-play-target" class="btn-3d fs-5">
+                                <i class="fa-solid fa-volume-high me-2"></i> Target: <span id="game4-target-name">...</span>
+                            </button>
+                            <div id="game4-feedback" class="fs-4 fw-semibold text-white">
+                                Tertangkap: 0 / 5
+                            </div>
+                        </div>
+                        
+                        <!-- Game Canvas -->
+                        <canvas id="game4-canvas" width="600" height="450" class="shadow-lg">Browser Anda tidak mendukung canvas.</canvas>
+                        
+                        <!-- Back Button -->
+                        <button id="game4-back-btn" class="d-none btn-3d green fs-5 mt-4">
+                            <i class="fa-solid fa-map me-2"></i> Kembali ke Peta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Final Screen -->
+        <section id="section-final" class="section-content hidden">
+            <div class="screen-container position-relative" style="z-index: 2;">
+                <div class="bg-light bg-opacity-10 p-5 p-md-5 rounded-4 shadow-lg" style="max-width: 500px;">
+                    <i class="fa-solid fa-trophy text-warning fs-1 mb-4" style="font-size: 5rem !important;"></i>
+                    <h1 class="fs-1 fw-bold mb-3">Selamat!</h1>
+                    <p class="fs-5 text-white mb-4">
+                        Kamu telah menyelesaikan semua level petualangan alat musik!
+                    </p>
+                    <h2 id="finalScoreDisplay" class="fs-3 fw-bold text-white mb-4">Nilai Akhir Kamu: 0</h2>
+                    <button id="resetBtn" class="btn-3d green fs-5 px-5 py-3">
+                        <i class="fa-solid fa-rotate-left me-2"></i> Kembali ke Awal
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- Modal: Tujuan -->
+    <div class="modal fade" id="infoModalPurpose" tabindex="-1" aria-labelledby="infoModalPurposeLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white text-dark rounded-4 shadow-lg">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title fw-bold text-primary" id="infoModalPurposeLabel"><i class="fa-solid fa-bullseye me-2"></i> Tujuan Pembelajaran</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pt-2">
+            <p>Aplikasi ini bertujuan untuk membantu pengguna: </p>
+            <ol>
+                <li>Mengenali berbagai jenis alat musik tradisional Indonesia.</li>
+                <li>Mengelompokkan alat musik berdasarkan cara memainkannya (dipukul, ditiup, dipetik, digesek, diguncang).</li>
+                <li>Mengaitkan nama alat musik dengan bunyi atau suaranya.</li>
+                <li>Mengembangkan memori visual dan auditori melalui permainan interaktif.</li>
+            </ol>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal: Petunjuk -->
+    <div class="modal fade" id="infoModalInstructions" tabindex="-1" aria-labelledby="infoModalInstructionsLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white text-dark rounded-4 shadow-lg">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title fw-bold text-primary" id="infoModalInstructionsLabel"><i class="fa-solid fa-hand-pointer me-2"></i> Petunjuk Permainan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pt-2">
+            <p class="fw-semibold">Langkah-langkah:</p>
+            <ul>
+                <li><strong>Mulai:</strong> Masuk ke Galeri Materi untuk mengenal semua alat musik.</li>
+                <li><strong>Level 1 (Tebak Suara):</strong> Dengarkan suara, lalu pilih gambar alat musik yang benar.</li>
+                <li><strong>Level 2 (Kelompokkan):</strong> Seret (Drag & Drop) alat musik ke kategori yang benar. Gambar akan mengecil saat masuk kotak.</li>
+                <li><strong>Level 3 (Memory Game):</strong> Temukan pasangan kartu alat musik yang identik.</li>
+                <li><strong>Level 4 (Tangkap Suara):</strong> Dengarkan suara target, lalu tangkap alat musik yang sesuai di kanvas.</li>
+                <li>Kumpulkan poin di setiap level untuk mendapatkan Nilai Akhir yang sempurna!</li>
+            </ul>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Pustaka -->
+    <div class="modal fade" id="infoModalLibrary" tabindex="-1" aria-labelledby="infoModalLibraryLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white text-dark rounded-4 shadow-lg">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title fw-bold text-primary" id="infoModalLibraryLabel"><i class="fa-solid fa-book-open-reader me-2"></i> Pustaka dan Sumber</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pt-2">
+            <p>Aplikasi ini dibuat untuk tujuan edukasi. Sumber daya aset yang digunakan meliputi:</p>
+            <ul>
+								<li>Font Awesome. (2025). *Ikon Vektor*. Diakses dari https://fontawesome.com</li>
+								<li>Bootstrap. (2025). *CSS Framework*. Diakses dari https://getbootstrap.com</li>
+								<li>Google Fonts. (2025). *Fredoka Font Family*. Diakses dari https://fonts.google.com</li>
+                                <li>
+                                    Google Gemini. (2025). *Aset Gambar Digital*. Generate dari https://gemini.ai
+                                </li>
+                                <li>
+                                    Pixabay. (2025). *Efek Suara dan Musik Latar*. Diakses dari https://pixabay.com/sound-effects/
+                                </li>
+            </ul>
+          </div>
+          <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal: Profil -->
+    <div class="modal fade" id="infoModalProfile" tabindex="-1" aria-labelledby="infoModalProfileLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 700px;">
+        <div class="modal-content modal-profile-content rounded-4 shadow-lg">
+          
+          <!-- Close Button -->
+          <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" 
+                  style="font-size: 1.5rem; opacity: 1; filter: invert(100%); z-index: 3;"></button>
+
+          <!-- Content -->
+          <div class="modal-main-content-profile">
+              <!-- Profile Pic -->
+              <div class="profile-pic-container" id="profile-pic-container">
+                  <!-- Ganti src dengan foto asli -->
+                  <img id="profile-pic" 
+                       src="bangbinImg/Bangbin.jpg" 
+                       alt="Foto Profil" 
+                       onerror="this.src='https://placehold.co/120x120/4e54c8/ffffff?text=PROFILE'; this.style.fontSize='10px';">
+              </div>
+              
+              <div class="profile-text" style="flex-grow: 1;">
+                  <h2 class="text-white mb-1" style="color: white !important; font-family: 'Fredoka One', cursive;">Pengembang</h2>
+                  <h2 class="text-white mb-2" style="color: white !important; font-family: 'Fredoka One', cursive;">Bintang Adhi Permana</h2>
+                  <p class="mb-1">SDN Lubang Buaya 01, Jakarta Timur</p>
+                  <p class="mb-2 fw-bold" style="font-size: 0.9em; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 5px;">Kontak:</p>
+                  
+                  <div class="social-icons" style="font-size: 1.8em; display: flex; gap: 15px;">
+                      <a href="https.www.facebook.com/bintang.a.permana.1/" target="_blank" style="color: white; text-decoration: none;"><i class="fab fa-facebook"></i></a>
+                      <a href="https.www.youtube.com/@Bangbin_1" target="_blank" style="color: white; text-decoration: none;"><i class="fab fa-youtube"></i></a>
+                      <a href="https.wa.me/6281310051985" target="_blank" style="color: white; text-decoration: none;"><i class="fab fa-whatsapp"></i></a>
+                  </div>
+              </div>
+          </div>
+          
+          <img src="bangbinImg/bangbin.png" 
+               alt="Background Wave" 
+               class="modal-bg-image-profile"
+               onerror="this.style.display='none';">
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Hak Cipta (Updated New Style) -->
+    <div class="modal fade" id="infoModalCopyright" tabindex="-1" aria-labelledby="infoModalCopyrightLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 900px;">
+        <div class="modal-content bg-white text-dark rounded-4 shadow-lg p-0 border-0">
+            
+            <!-- Close Button (Updated for Visibility) -->
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 100; font-size: 1.2rem; color: #E74C3C !important; opacity: 1;"></button>
+
+            <div class="modal-body p-0">
+                <div class="hak-cipta-container">
+                    <img src="bangbinImg/favicon.ico" alt="Logo Tut Wuri" class="hc-logo-top">
+                    
+                    <div class="hc-header">
+                        <h2>DIREKTORAT SEKOLAH DASAR</h2>
+                        <h3>KEMENTERIAN PENDIDIKAN DASAR DAN MENENGAH</h3>
+                        <h4>DIREKTORAT JENDERAL PENDIDIKAN ANAK USIA DINI, PENDIDIKAN DASAR DAN PENDIDIKAN MENENGAH</h4>
+                    </div>
+                    
+                    <div class="hc-line"></div>
+
+                    <div class="hc-content-wrapper">
+                        <div class="hc-watermark">
+                            <img src="bangbinImg/favicon.ico" alt="Watermark Logo">
+                        </div>
+                        
+                        <div class="hc-details">
+                            <div class="hc-label">Pengarah</div>
+                            <div class="hc-sep">:</div>
+                            <div class="hc-value">Moch. Salim Somad, S.Kom., M.Pd., Direktorat Sekolah Dasar</div>
+
+                            <div class="hc-label">Penanggung Jawab</div>
+                            <div class="hc-sep">:</div>
+                            <div class="hc-value">Lanny Anggraini, S.Pd., M.A., Direktorat Sekolah Dasar</div>
+
+                            <div class="hc-label">Pengembang</div>
+                            <div class="hc-sep">:</div>
+                            <div class="hc-value">Bintang Adhi Permana, M.Pd</div>
+
+                            <div class="hc-label">Pengkaji Materi</div>
+                            <div class="hc-sep">:</div>
+                            <div class="hc-value">Kurator, MBG</div>
+
+                            <div class="hc-label">Pengkaji Media</div>
+                            <div class="hc-sep">:</div>
+                            <div class="hc-value">
+                                1. Muh. Noor Ginanjar Jaelani, S.Pd., Direktorat Sekolah Dasar<br>
+                                2. Ine Rahmawati, S.Pd., M.Si., Direktorat Sekolah Dasar
+                            </div>
+
+                            <div class="hc-row-spacer"></div>
+
+                            <div class="hc-label">Diterbitkan oleh</div>
+                            <div class="hc-sep">:</div>
+                            <div class="hc-value">
+                                Direktorat Sekolah Dasar<br>
+                                Direktorat Jenderal Pendidikan Anak Usia Dini, Pendidikan Dasar, dan Pendidikan Menengah<br>
+                                Kementerian Pendidikan Dasar dan Menengah<br>
+                                Tahun 2025
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <audio id="audioPlayer" preload="auto"></audio>
+    <audio id="sfxPlayer" preload="auto"></audio>
+    
+    <script src="style/bootstrap.bundle.min.js"></script>
+
+    <script>        
+        // --- DATA & CONSTANTS ---
+        const alatMusikData = {
+			"Gendang":       { img: "bangbinImg/Kendang.png", soundUrl: "music/drum.mp3" },
+			"Suling":        { img: "bangbinImg/Suling.png", soundUrl: "music/Suling.mp3" },
+			"Sasando":       { img: "bangbinImg/Sasando.png", soundUrl: "music/Sasando.mp3" },
+			"Arbab":         { img: "bangbinImg/Arbab.png", soundUrl: "music/Arbab.mp3" },
+            "Gamelan":       { img: "bangbinImg/Gamelan.png", soundUrl: "music/Gamelan.mp3" },
+            "Genggong":      { img: "bangbinImg/Genggong.png", soundUrl: "music/Genggong.mp3" },
+            "Kurinding":     { img: "bangbinImg/Kurinding.png", soundUrl: "music/Kurinding.mp3" },
+            "Kolintang":     { img: "bangbinImg/Kolintang.png", soundUrl: "music/Kolintang.mp3" },
+            "Kecapi":        { img: "bangbinImg/Kecapi.png", soundUrl: "music/Kecapi.mp3" },
+            "Angklung":      { img: "bangbinImg/Angklung.png", soundUrl: "music/Angklung.mp3" },
+            "Antoneng":      { img: "bangbinImg/Antoneng.png", soundUrl: "music/Antoneng.mp3" },
+            "Keledi":        { img: "bangbinImg/Keledi.png", soundUrl: "music/Keledi.mp3" },
+        };
+        
+        const SFX_BUTTON_HOVER = 'music/tombolBangbin.wav';
+        const galleryInfo = [
+            { name: "Gendang", jenis: "Membranofon", cara: "Dipukul dengan telapak tangan di kedua sisinya.", asal: "Indonesia (Jawa, Sunda, Bali)", category: "Dipukul", deskripsi: "Instrumen inti dalam gamelan, berfungsi sebagai pengatur tempo dan ritme." },
+            { name: "Suling", jenis: "Aerofon", cara: "Ditiup pada lubang tiup, jari-jari menutup lubang untuk mengubah nada.", asal: "Indonesia (Sunda, Jawa, Bali)", category: "Ditiup", deskripsi: "Sering digunakan dalam musik Kecapi Suling (Sunda) atau sebagai melodi dalam gamelan." },
+            { name: "Sasando", jenis: "Kordofon (Zither tabung)", cara: "Dipetik senar-senarnya dengan kedua tangan.", asal: "Indonesia (Pulau Rote, NTT)", category: "Dipetik", deskripsi: "Menggunakan resonator unik dari daun lontar kering yang melengkung." },
+            { name: "Kecapi", jenis: "Kordofon (Zither kotak)", cara: "Dipetik senar-senarnya dengan kuku atau plektrum.", asal: "Indonesia (Sunda)", category: "Dipetik", deskripsi: "Merupakan alat musik utama dalam tembang Sunda dan Cianjuran. Memiliki bentuk kotak resonansi." },
+            { name: "Arbab", jenis: "Kordofon (Spike fiddle)", cara: "Digesek dengan busur (bow), dimainkan dalam posisi tegak.", asal: "Indonesia (Aceh)", category: "Digesek", deskripsi: "Sering digunakan untuk mengiringi cerita atau nyanyian tradisional Aceh." },
+            { name: "Gamelan", jenis: "Ansambel (Idiofon, dll.)", cara: "Dimainkan bersama oleh banyak orang (dipukul).", asal: "Indonesia (Jawa, Bali)", category: "Dipukul", deskripsi: "Ansambel musik kaya tekstur berdasarkan tangga nada pelog dan slendro." },
+            { name: "Genggong", jenis: "Idiofon (Harpa mulut)", cara: "Bingkai ditempelkan ke bibir, bilah digetarkan sambil mengubah rongga mulut.", asal: "Indonesia (Bali, Jawa, Lombok)", category: "Ditiup", deskripsi: "Menghasilkan suara dengungan unik, sering dimainkan untuk hiburan." },
+            { name: "Kurinding", jenis: "Idiofon (Harpa mulut)", cara: "Diletakkan di mulut dan bilah getarnya dipetik atau ditarik.", asal: "Indonesia (Sunda, Banten)", category: "Ditiup", deskripsi: "Terbuat dari bambu atau pelepah enau, digunakan untuk musik hiburan atau ritual." },
+            { name: "Kolintang", jenis: "Idiofon (Xilofon)", cara: "Bilah-bilah kayu bernada dipukul dengan pemukul khusus.", asal: "Indonesia (Minahasa, Sulawesi Utara)", category: "Dipukul", deskripsi: "Dimainkan secara ansambel, mirip gamelan, oleh beberapa pemain." },
+            { name: "Angklung", jenis: "Idiofon", cara: "Digoyangkan sehingga tabung bambu membentur bingkai.", asal: "Indonesia (Sunda, Jawa Barat)", category: "Diguncang", deskripsi: "Satu angklung = satu nada. Membutuhkan kerjasama tim untuk memainkan melodi." },
+            { name: "Antoneng", jenis: "Kordofon (Zither tabung)", cara: "Senar dari bilah kulit bambu (dicungkil dari badan) dipetik.", asal: "Indonesia (Dayak, Kalimantan)", category: "Dipetik", deskripsi: "Zither tabung sederhana yang sering dimainkan untuk hiburan pribadi." },
+            { name: "Keledi", jenis: "Aerofon (Organ mulut)", cara: "Ditiup/dihisap melalui labu kering, jari menutup lubang pipa bambu.", asal: "Indonesia (Dayak, Kalimantan Barat)", category: "Ditiup", deskripsi: "Menghasilkan suara mirip organ dari beberapa pipa bambu dalam labu kering." },
+        ];
+        
+        // --- SOUND SYSTEM ---
+        const audioPlayer = document.getElementById('audioPlayer');
+        const sfxPlayer = document.getElementById('sfxPlayer'); 
+        const sections = document.querySelectorAll('.section-content');
+
+        function getPlaceholderUrl(name, width, height) {
+            const cleanName = encodeURIComponent(name.replace(/\s+/g, '_').substring(0, 10));
+            return `https://placehold.co/${width}x${height}/e2e8f0/94a3b8?text=${cleanName}`;
+        }
+        
+        function playGameSound(soundFile) {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;        
+            sfxPlayer.src = `music/${soundFile}`;
+            sfxPlayer.currentTime = 0;
+            sfxPlayer.play().catch(e => console.error(`Gagal memutar SFX: ${e}`));
+        }
+    
+        function playInstrumentSound(soundUrl) {
+            sfxPlayer.pause();
+            sfxPlayer.currentTime = 0;    
+            if (!audioPlayer.paused) audioPlayer.pause();
+            audioPlayer.src = soundUrl;
+            audioPlayer.play().catch(error => console.error("Gagal memutar suara lokal:", error));
+        }
+        
+        const hoverAudio = new Audio(SFX_BUTTON_HOVER);
+        hoverAudio.volume = 0.5; 
+
+        function playHoverSound() {
+            if (hoverAudio.readyState >= 2) {
+                hoverAudio.currentTime = 0;
+                hoverAudio.play().catch(e => {});
+            } else {
+                hoverAudio.load();
+                hoverAudio.play().catch(e => {});
+            }
+        }
+        
+        function addHoverSound(element) {
+            if (element && element.tagName !== 'INPUT' && element.tagName !== 'TEXTAREA') {
+                element.addEventListener('mouseenter', playHoverSound);
+            }
+        }
+        
+        function applyHoverSoundsToAllInteractiveElements() {
+            document.querySelectorAll('.map-btn').forEach(addHoverSound);            
+            document.querySelectorAll('.sidebar-menu button').forEach(addHoverSound);            
+            document.querySelectorAll('.btn-3d').forEach(addHoverSound);            
+            document.getElementById('game1-play-sound')?.addEventListener('mouseenter', playHoverSound);
+            document.getElementById('game1-next')?.addEventListener('mouseenter', playHoverSound);
+            document.querySelectorAll('.game1-choice-btn').forEach(addHoverSound);
+            document.querySelectorAll('.materi-card').forEach(addHoverSound);            
+            document.getElementById('closeModal')?.addEventListener('mouseenter', playHoverSound);
+            document.getElementById('playSoundBtn')?.addEventListener('mouseenter', playHoverSound);            
+            document.getElementById('game2-reset')?.addEventListener('mouseenter', playHoverSound);            
+            document.getElementById('game3-reset')?.addEventListener('mouseenter', playHoverSound);            
+            document.getElementById('game4-play-target')?.addEventListener('mouseenter', playHoverSound);
+            document.getElementById('game4-back-btn')?.addEventListener('mouseenter', playHoverSound);
+        }
+                
+        window.addEventListener('load', () => {            
+            setTimeout(applyHoverSoundsToAllInteractiveElements, 500);            
+            
+            // Wrappers to re-apply hover sounds when dynamic content loads
+            const originalLoadGame1 = loadGame1;
+            loadGame1 = function() {
+                originalLoadGame1();
+                document.querySelectorAll('.game1-choice-btn').forEach(addHoverSound);
+            }
+            
+            const originalLoadGame2 = loadGame2;
+            loadGame2 = function() {
+                originalLoadGame2();
+                document.querySelectorAll('.draggable-item').forEach(addHoverSound);
+            }
+            
+            const originalLoadGame3 = loadGame3;
+            loadGame3 = function() {
+                originalLoadGame3();                
+                document.querySelectorAll('.memory-card').forEach(addHoverSound);
+            }
+        });
+
+        // --- GAME STATE VARIABLES ---
+        let skor = 0;
+        let level1Completed = false;
+        let level2Completed = false;
+        let level3Completed = false;
+        let level4Completed = false;         
+        let materiGalleryInitialized = false; 
+        let game1Initialized = false;
+        let game2Initialized = false;
+        let game3Initialized = false;
+        let game4Initialized = false; 
+        
+        // --- NAVIGATION & SCREEN MANAGEMENT ---
+        function updateMapLocks() {            
+            document.getElementById('map-btn-materi').classList.remove('locked');
+            document.getElementById('map-btn-level1').classList.remove('locked');            
+            document.getElementById('map-btn-level2').classList.toggle('locked', !level1Completed);            
+            document.getElementById('map-btn-level3').classList.toggle('locked', !level2Completed);            
+            document.getElementById('map-btn-level4').classList.toggle('locked', !level3Completed);            
+            document.getElementById('map-btn-final').classList.toggle('locked', !level4Completed);
+        }
+        
+        function showScreen(screenId) {            
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            sfxPlayer.pause();
+            sfxPlayer.currentTime = 0;            
+            if(typeof hideInfo === 'function') hideInfo(); 
+                        
+            game4Active = false;
+            if (game4AnimationId) {
+                cancelAnimationFrame(game4AnimationId);
+                game4AnimationId = null;
+            }
+
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            const targetSection = document.getElementById(screenId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            } else {
+                console.error("Section not found:", screenId);
+                document.getElementById('section-map').classList.remove('hidden');
+            }
+            
+            if (screenId === 'section-materi' && !materiGalleryInitialized) {
+                loadMateriGallery();
+                materiGalleryInitialized = true;
+            }
+            if (screenId === 'section-game-1' && !game1Initialized) {
+                loadGame1();
+                game1Initialized = true; 
+            }
+            if (screenId === 'section-game-2' && !game2Initialized) {
+                loadGame2();
+                game2Initialized = true; 
+            }
+            
+            if (screenId === 'section-game-3') {
+                if (!game3Initialized) {
+                    initGame3(); 
+                    game3Initialized = true; 
+                } else {                    
+                    loadGame3(); 
+                }
+            }
+            
+            if (screenId === 'section-game-4') { 
+                if (!game4Initialized) {
+                    initGame4(); 
+                    game4Initialized = true;
+                }
+                                
+                game4Active = true;
+                if (!level4Completed) resetGame4(); 
+                game4Loop();
+            }
+            
+            if (screenId === 'section-final') {
+                updateFinalScreen();
+                playGameSound('WInner.mp3'); 
+            }
+                        
+            if (screenId === 'section-map') {
+                updateMapLocks();
+                setTimeout(setupProfileModalInteractions, 500);
+            }            
+        }
+        
+        function updateFinalScreen() {
+            document.getElementById('finalScoreDisplay').textContent = `Nilai Akhir Kamu: ${skor}`;
+        }
+
+        function resetGame() {
+            skor = 0;
+            level1Completed = false;
+            level2Completed = false;
+            level3Completed = false;
+            level4Completed = false; 
+            
+            game1Skor = 0;
+            document.getElementById('game1-next').textContent = 'Lanjut!';
+            document.getElementById('game1-next').classList.add('d-none');
+            document.getElementById('game1-feedback').textContent = '';
+            game1Locked = false;
+            if (game1Initialized) loadGame1(); 
+            document.getElementById('game2-reset').textContent = 'Reset Game';
+            if (game2Initialized) loadGame2(); 
+            
+            game3Matches = 0;
+            game3Locked = false;
+            if (game3Initialized) loadGame3(); 
+                        
+            game4Score = 0;
+            if (game4Initialized) resetGame4();
+            document.getElementById('game4-back-btn').classList.add('d-none');            
+            showScreen('section-map'); 
+        }
+
+        // --- MATERI GALLERY LOGIC ---
+        function loadMateriGallery() {
+            const grid = document.getElementById('materi-grid');
+            grid.innerHTML = ''; 
+            
+            galleryInfo.forEach(inst => {
+                const globalData = alatMusikData[inst.name];                
+                const col = document.createElement('div');
+                col.className = 'col'; 
+                const card = document.createElement('div');
+                card.className = 'materi-card h-100 d-flex flex-column justify-content-center align-items-center'; 
+                const imageUrl = globalData ? globalData.img : '';
+                const placeholderUrl = getPlaceholderUrl(inst.name, 150, 120);
+
+                card.innerHTML = `
+                    <img src="${imageUrl}" 
+                         alt="${inst.name}" 
+                         style="font-size: 10px; font-weight: bold;"
+                         onerror="this.src='${placeholderUrl}'; this.style.backgroundColor='#f8f9fa';">
+                    <p class="mt-auto">${inst.name}</p>
+                `;
+                
+                const modalData = { ...inst, ...globalData };
+                card.addEventListener('click', () => {
+                    showInfo(modalData); 
+                });
+                
+                col.appendChild(card);
+                grid.appendChild(col);                
+                addHoverSound(card); 
+            });
+        }
+        
+        const infoModal = document.getElementById('infoModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const playSoundBtn = document.getElementById('playSoundBtn');
+        let currentSoundUrl = null; 
+
+        function showInfo(data) {
+            document.getElementById('modalTitle').textContent = data.name;
+            document.getElementById('modalImage').dataset.name = data.name;
+            document.getElementById('modalImage').src = data.img; 
+            document.getElementById('modalImage').alt = data.name;
+            document.getElementById('modalJenis').textContent = data.jenis;
+            document.getElementById('modalCara').textContent = data.cara;
+            document.getElementById('modalAsal').textContent = data.asal;
+            document.getElementById('modalDeskripsi').textContent = data.deskripsi;
+            currentSoundUrl = data.soundUrl; 
+            playSoundBtn.classList.toggle('d-none', !data.soundUrl); 
+            infoModal.classList.remove('hidden'); 
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function hideInfo() {            
+            infoModal.classList.add('hidden'); 
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            currentSoundUrl = null;
+            document.body.style.overflow = 'auto'; 
+        }
+
+        closeModalBtn.addEventListener('click', hideInfo);
+        playSoundBtn.addEventListener('click', () => {
+            if (currentSoundUrl) {
+                playInstrumentSound(currentSoundUrl);
+            }
+        });
+        
+        // --- PROFILE MODAL 3D EFFECT ---
+        function setupProfileModalInteractions() {
+            const profilePicContainer = document.getElementById('profile-pic-container');
+            const profilePic = document.getElementById('profile-pic');
+            
+            if (profilePicContainer && profilePic) {
+                const maxRotate = 15;
+                
+                profilePicContainer.addEventListener('mousemove', (e) => {
+                    const rect = profilePicContainer.getBoundingClientRect();
+                    const mouseX = e.clientX - rect.left;
+                    const mouseY = e.clientY - rect.top; 
+                    const rotateY = ((mouseX / rect.width) - 0.5) * 2 * maxRotate;
+                    const rotateX = (((mouseY / rect.height) - 0.5) * 2 * maxRotate) * -1; 
+                    
+                    profilePic.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
+                });
+                
+                profilePicContainer.addEventListener('mouseleave', () => {
+                    profilePic.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+                });        
+                document.querySelectorAll('#infoModalProfile .social-icons a').forEach(addHoverSound);
+            }
+        }
+        
+        document.getElementById('infoModalProfile').addEventListener('shown.bs.modal', setupProfileModalInteractions);
+
+        // --- GAME 1: TEBAK SUARA ---
+        const game1PlayBtn = document.getElementById('game1-play-sound');
+        const game1ChoiceGrid = document.getElementById('game1-choice-grid');
+        const game1Feedback = document.getElementById('game1-feedback');
+        const game1NextBtn = document.getElementById('game1-next');
+        let game1Answer = null;
+        let game1Locked = false;
+        let game1Skor = 0;
+        const game1Target = 3; 
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function loadGame1() {
+            game1Locked = false;
+            if (!level1Completed) {
+                 game1Feedback.textContent = `Skor: ${game1Skor}/${game1Target}`;
+            }
+            game1NextBtn.classList.add('d-none'); 
+            game1PlayBtn.disabled = false;
+            const shuffledInstruments = [...galleryInfo];
+            shuffleArray(shuffledInstruments);
+            const choices = shuffledInstruments.slice(0, 4);
+            game1Answer = choices[0];
+            shuffleArray(choices);
+            game1ChoiceGrid.innerHTML = ''; 
+            choices.forEach(instrument => {
+                const globalData = alatMusikData[instrument.name];
+                const button = document.createElement('button');
+                button.className = 'game1-choice-btn bg-light bg-opacity-10 rounded-3 p-3 text-white'; 
+                button.dataset.name = instrument.name;                
+                const imageUrl = globalData ? globalData.img : '';
+                const placeholderUrl = getPlaceholderUrl(instrument.name, 96, 96);
+
+                button.innerHTML = `
+                    <img src="${imageUrl}" alt="${instrument.name}" class="w-100 h-100 mx-auto object-fit-contain pointer-events-none" style="max-height: 96px; max-width: 96px;"
+                         onerror="this.src='${placeholderUrl}'; this.style.fontSize='8px'; this.style.fontWeight='bold'; this.style.objectFit='contain'; this.style.backgroundColor='#f8f9fa';">
+                    <p class="mt-2 fw-semibold fs-5 pointer-events-none">${instrument.name}</p>
+                `;
+                button.addEventListener('click', () => checkGame1Answer(button));
+                game1ChoiceGrid.appendChild(button);
+            });
+            
+            document.querySelectorAll('.game1-choice-btn').forEach(addHoverSound);
+        }
+
+        game1PlayBtn.addEventListener('click', () => {
+            if (game1Answer) {
+                const soundUrl = alatMusikData[game1Answer.name].soundUrl; 
+                playInstrumentSound(soundUrl);
+            }
+        });
+
+        function checkGame1Answer(button) {
+            if (game1Locked || level1Completed) return;
+            game1Locked = true;
+            game1PlayBtn.disabled = true;
+
+            if (button.dataset.name === game1Answer.name) {
+                game1Skor++;
+                game1Feedback.textContent = `BENAR! ✅ (Skor: ${game1Skor}/${game1Target})`;
+                game1Feedback.className = 'h-auto fs-5 fw-semibold text-success'; 
+                button.classList.add('feedback-correct'); 
+                button.style.borderColor = '#198754'; 
+                if (game1Skor >= game1Target) {
+                    level1Completed = true;
+                    skor += 100; 
+                    game1Feedback.textContent = `Level 1 Selesai! Kamu dapat 100 Poin!`;
+                    game1NextBtn.textContent = 'Kembali ke Peta';
+                    game1NextBtn.classList.remove('btn-success');
+                    game1NextBtn.classList.add('btn-primary'); 
+                    playGameSound('bangbinwinlevel.mp3'); 
+                } else {
+                    playGameSound('Benar.mp3'); 
+                }
+            } else {
+                game1Feedback.textContent = `SALAH! ❌ (Skor: ${game1Skor}/${game1Target})`;
+                game1Feedback.className = 'h-auto fs-5 fw-semibold text-danger'; 
+                button.classList.add('feedback-wrong'); 
+                button.style.borderColor = '#dc3545'; 
+                playGameSound('Wrong.mp3'); 
+                game1ChoiceGrid.querySelectorAll('button').forEach(btn => {
+                    if(btn.dataset.name === game1Answer.name) btn.style.borderColor = '#198754'; 
+                });
+            }
+            game1NextBtn.classList.remove('d-none');
+        }
+
+        game1NextBtn.addEventListener('click', () => {
+            if (level1Completed) {
+                showScreen('section-map');
+            } else {
+                loadGame1(); 
+            }
+        });
+        
+        // --- GAME 2: DRAG & DROP ---
+        const game2ItemBank = document.getElementById('game2-item-bank');
+        const game2Dropzones = document.querySelectorAll('.dropzone');
+        const game2ResetBtn = document.getElementById('game2-reset');
+        let currentDraggedElement = null; 
+        let ghostElement = null; 
+        let touchOffsetX = 0; 
+        let touchOffsetY = 0; 
+        let game2ItemsToPlace = 8; 
+
+        function loadGame2() {
+            game2ItemsToPlace = 8; 
+            game2ItemBank.innerHTML = '';
+            game2Dropzones.forEach(zone => {
+                zone.querySelector('.drop-area').innerHTML = '';
+            });
+            const shuffledInstruments = [...galleryInfo];
+            shuffleArray(shuffledInstruments);
+            const gameItems = shuffledInstruments.slice(0, 8);
+            gameItems.forEach(instrument => {
+                const globalData = alatMusikData[instrument.name];
+                const item = document.createElement('img');
+                item.src = globalData ? globalData.img : ''; 
+                item.alt = instrument.name;
+                item.title = instrument.name;
+                item.className = 'draggable-item object-fit-contain bg-light bg-opacity-25 p-1 rounded-3'; 
+                item.draggable = true;
+                item.dataset.name = instrument.name;
+                item.dataset.category = instrument.category;
+                const placeholderUrl = getPlaceholderUrl(instrument.name, 64, 64);
+                item.setAttribute('onerror', `this.src='${placeholderUrl}'; this.style.fontSize='8px'; this.style.objectFit='contain'; this.style.padding='4px'; this.style.backgroundColor='#f8f9fa';`);
+                item.addEventListener('dragstart', onDragStart);
+                item.addEventListener('dragend', onDragEnd);
+                item.addEventListener('touchstart', onTouchStart, { passive: false }); 
+                game2ItemBank.appendChild(item);                
+                addHoverSound(item);
+            });
+            if (!game2Initialized) {
+                document.body.addEventListener('touchmove', onTouchMove, { passive: false });
+                document.body.addEventListener('touchend', onTouchEnd);
+            }
+        }
+        function onDragStart(event) {
+            currentDraggedElement = event.target;
+            event.dataTransfer.setData('text/plain', event.target.dataset.name);
+            event.dataTransfer.dropEffect = 'move';
+            setTimeout(() => event.target.classList.add('dragging'), 0);
+        }
+        function onDragEnd(event) {
+            if (event.target) event.target.classList.remove('dragging');
+            currentDraggedElement = null;
+        }
+        function onTouchStart(event) {
+            if (event.target.classList.contains('draggable-item')) {
+                currentDraggedElement = event.target;
+                currentDraggedElement.classList.add('dragging');
+                ghostElement = currentDraggedElement.cloneNode(true);
+                ghostElement.classList.add('ghost');
+                document.body.appendChild(ghostElement);
+                const touch = event.touches[0];
+                const rect = currentDraggedElement.getBoundingClientRect();
+                touchOffsetX = touch.clientX - rect.left;
+                touchOffsetY = touch.clientY - rect.top;
+                ghostElement.style.left = `${touch.clientX - touchOffsetX}px`;
+                ghostElement.style.top = `${touch.clientY - touchOffsetY}px`;
+            }
+        }
+        function onTouchMove(event) {
+            if (currentDraggedElement && ghostElement) {
+                event.preventDefault(); 
+                const touch = event.touches[0];
+                const x = touch.clientX, y = touch.clientY;
+                ghostElement.style.left = `${x - touchOffsetX}px`;
+                ghostElement.style.top = `${y - touchOffsetY}px`;
+                ghostElement.style.display = 'none';
+                const elementBelow = document.elementFromPoint(x, y);
+                ghostElement.style.display = ''; 
+                game2Dropzones.forEach(zone => {
+                    zone.classList.toggle('dropzone-over', zone === elementBelow || zone.contains(elementBelow));
+                });
+            }
+        }
+        function onTouchEnd(event) {
+            if (currentDraggedElement && ghostElement) {
+                document.body.removeChild(ghostElement);
+                ghostElement = null;
+                const touch = event.changedTouches[0];
+                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                let dropzone = null;
+                if (elementBelow) {
+                    dropzone = elementBelow.classList.contains('dropzone') ? elementBelow : elementBelow.closest('.dropzone');
+                }
+                if (dropzone) {
+                    handleDrop(currentDraggedElement, dropzone);
+                }
+                currentDraggedElement.classList.remove('dragging');
+                currentDraggedElement = null;
+                game2Dropzones.forEach(zone => zone.classList.remove('dropzone-over'));
+            }
+        }
+        game2Dropzones.forEach(zone => {
+            zone.addEventListener('dragover', (event) => {
+                event.preventDefault(); 
+                zone.classList.add('dropzone-over');
+                event.dataTransfer.dropEffect = 'move';
+            });
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('dropzone-over');
+            });
+            zone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                zone.classList.remove('dropzone-over');
+                if (currentDraggedElement) {
+                    handleDrop(currentDraggedElement, zone);
+                } else {
+                    const instrumentName = event.dataTransfer.getData('text/plain');
+                    const draggedItem = document.querySelector(`.draggable-item[data-name="${instrumentName}"]`);
+                    if(draggedItem) handleDrop(draggedItem, zone);
+                }
+            });
+        });
+        
+        function handleDrop(item, dropzone) {
+            const instrumentCategory = item.dataset.category;
+            const zoneCategory = dropzone.dataset.category;
+            if (instrumentCategory === zoneCategory) {
+                dropzone.querySelector('.drop-area').appendChild(item);
+                item.draggable = false; 
+                item.classList.remove('dragging');
+                item.removeEventListener('touchstart', onTouchStart);
+                
+                // --- MODIFICATION LEVEL 2: MAKE SMALL WHEN DROPPED ---
+                item.classList.add('small');
+                // -----------------------------------------------------
+
+                game2ItemsToPlace--; 
+                const soundUrl = alatMusikData[item.dataset.name]?.soundUrl; 
+                if (soundUrl) {
+                    playInstrumentSound(soundUrl);
+                }
+                
+                if (game2ItemsToPlace <= 0 && !level2Completed) {
+                    level2Completed = true;
+                    skor += 100;
+                    game2ItemBank.innerHTML = '<h2 class="fs-4 text-success fw-bold p-3">Level 2 Selesai! Kamu dapat 100 poin!</h2>';
+                    game2ResetBtn.textContent = 'Kembali ke Peta';
+                    playGameSound('bangbinwinlevel.mp3'); 
+                } else {
+                    playGameSound('Benar.mp3'); 
+                }
+            } else {
+                item.classList.add('feedback-wrong'); 
+                setTimeout(() => item.classList.remove('feedback-wrong'), 500);
+                playGameSound('Wrong.mp3'); 
+            }
+        }
+        game2ResetBtn.addEventListener('click', () => {
+            if (level2Completed) {
+                showScreen('section-map');
+            } else {
+                loadGame2(); 
+            }
+        });
+
+        // --- GAME 3: MEMORY GAME ---
+        const game3Grid = document.getElementById('game3-grid');
+        const game3Feedback = document.getElementById('game3-feedback');
+        const game3ResetBtn = document.getElementById('game3-reset');
+        let game3Matches = 0;
+        const game3TotalMatches = 6;
+        let game3Locked = false;
+        let game3FirstCard = null;
+        let game3SecondCard = null;
+
+        function initGame3() {
+            loadGame3(); 
+            game3ResetBtn.addEventListener('click', loadGame3);
+            
+        }
+
+        function loadGame3() {
+            game3Matches = 0;
+            game3Locked = false;
+            game3FirstCard = null;
+            game3SecondCard = null;
+            game3Feedback.textContent = `Pasangan Ditemukan: 0 / ${game3TotalMatches}`;
+            game3ResetBtn.textContent = 'Reset Game';
+            const shuffledInstruments = [...galleryInfo];
+            shuffleArray(shuffledInstruments);
+            const gameCardsInfo = shuffledInstruments.slice(0, game3TotalMatches);
+            const cardPairs = [...gameCardsInfo, ...gameCardsInfo]; 
+            shuffleArray(cardPairs); 
+            
+            game3Grid.innerHTML = ''; 
+            cardPairs.forEach(instrument => {
+                const globalData = alatMusikData[instrument.name];
+                const card = document.createElement('div');
+                card.className = 'card'; 
+                card.dataset.name = instrument.name;
+                
+                const imageUrl = globalData ? globalData.img : '';
+                const placeholderUrl = getPlaceholderUrl(instrument.name, 100, 100);
+                
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <i class="fa-solid fa-music"></i> 
+                        </div>
+                        <div class="card-back">
+                            <img src="${imageUrl}" alt="${instrument.name}" 
+                                 onerror="this.src='${placeholderUrl}'; this.style.fontSize='8px'; this.style.objectFit='cover';">
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => onCardClick(card));
+                game3Grid.appendChild(card);
+                addHoverSound(card);
+            });
+        }
+
+        function onCardClick(card) {
+            if (game3Locked || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+            card.classList.add('flipped');
+            if (!game3FirstCard) {
+                game3FirstCard = card;
+                return;
+            }
+            
+            game3SecondCard = card;
+            game3Locked = true;
+            checkGame3Match();
+        }
+
+        function checkGame3Match() {
+            const isMatch = game3FirstCard.dataset.name === game3SecondCard.dataset.name;
+            
+            if (isMatch) {
+                game3Matches++;
+                game3Feedback.textContent = `Pasangan Ditemukan: ${game3Matches} / ${game3TotalMatches}`;
+                
+                if (game3Matches === game3TotalMatches) {
+                     playGameSound('bangbinwinlevel.mp3'); 
+                } else {
+                     playGameSound('Benar.mp3'); 
+                }
+                
+                const soundUrl = alatMusikData[game3FirstCard.dataset.name]?.soundUrl; 
+                if (soundUrl) {
+                    playInstrumentSound(soundUrl);
+                }
+
+                if(game3FirstCard && game3SecondCard) {
+                    game3FirstCard.classList.add('matched');
+                    game3SecondCard.classList.add('matched');
+                }
+                
+                if (game3Matches === game3TotalMatches) {
+                    if (!level3Completed) {
+                        skor += 100;
+                        level3Completed = true; 
+                    }
+                    game3ResetBtn.textContent = 'Main Lagi';
+                    game3Feedback.textContent = `Level 3 Selesai! (+100 Poin!)`;
+                    setTimeout(() => {
+                        showScreen('section-map'); 
+                    }, 1000); 
+                }
+                
+                resetGame3Turn();
+
+            } else {
+                playGameSound('Wrong.mp3'); 
+                setTimeout(() => {                    
+                    if (game3FirstCard && !game3FirstCard.classList.contains('matched')) {
+                        game3FirstCard.classList.remove('flipped');
+                    }
+                    if (game3SecondCard && !game3SecondCard.classList.contains('matched')) {
+                        game3SecondCard.classList.remove('flipped');
+                    }
+                    resetGame3Turn();
+                }, 1000);
+            }
+        }
+
+        function resetGame3Turn() {
+            game3FirstCard = null;
+            game3SecondCard = null;
+            game3Locked = false;
+        }
+
+        // --- GAME 4: CATCHER GAME ---
+        let game4Active = false; 
+        let game4AnimationId = null;
+        const game4Canvas = document.getElementById('game4-canvas');
+        const game4Ctx = game4Canvas.getContext('2d');
+        const game4TargetNameEl = document.getElementById('game4-target-name');
+        const game4FeedbackEl = document.getElementById('game4-feedback');
+        const game4PlayTargetBtn = document.getElementById('game4-play-target');
+        const game4BackBtn = document.getElementById('game4-back-btn');
+        
+        let game4Images = {}; 
+        let game4Target = null;
+        let game4Score = 0;
+        const game4TargetScore = 5;
+        // Base coordinates are based on internal resolution (600x450)
+        let game4Catcher = { x: game4Canvas.width / 2 - 50, y: game4Canvas.height - 30, width: 100, height: 20 }; 
+        let game4FallingItems = [];
+        let game4SpawnTimer = 0;
+        const GAME4_ITEM_SIZE = 60; 
+
+        function initGame4() {
+            loadGame4Images();
+            resetGame4();
+            game4Canvas.addEventListener('mousemove', moveCatcher);
+            game4Canvas.addEventListener('touchmove', moveCatcher, { passive: false });
+            game4PlayTargetBtn.addEventListener('click', playTargetSound);
+            game4BackBtn.addEventListener('click', () => showScreen('section-map'));
+            addHoverSound(game4PlayTargetBtn);
+            addHoverSound(game4BackBtn);
+        }
+        
+        function loadGame4Images() {
+            galleryInfo.forEach(inst => {
+                const img = new Image();
+                img.src = alatMusikData[inst.name]?.img || ''; 
+                img.onerror = function() {
+                    this.isBroken = true;
+                };
+                game4Images[inst.name] = img;
+            });
+        }
+        
+        function resetGame4() {
+            game4Score = 0;
+            game4FallingItems = [];
+            game4Catcher.x = game4Canvas.width / 2 - 50; 
+            game4BackBtn.classList.add('d-none'); 
+            game4FeedbackEl.textContent = `Tertangkap: 0 / ${game4TargetScore}`;
+            setNewGame4Target();
+        }
+        
+        function setNewGame4Target() {
+            const randomIndex = Math.floor(Math.random() * galleryInfo.length);
+            game4Target = galleryInfo[randomIndex];
+            game4TargetNameEl.textContent = game4Target.name;
+        }
+        
+        function playTargetSound() {
+            if (game4Target) {
+                const soundUrl = alatMusikData[game4Target.name]?.soundUrl; 
+                if (soundUrl) {
+                    playInstrumentSound(soundUrl);
+                }
+            }
+        }
+        
+        function moveCatcher(event) {
+            event.preventDefault();
+            let clientX;
+            if (event.touches) {
+                clientX = event.touches[0].clientX;
+            } else {
+                clientX = event.clientX;
+            }
+            
+            // --- MODIFICATION LEVEL 4: RESPONSIVE SCALING ---
+            const rect = game4Canvas.getBoundingClientRect();
+            // Calculate the ratio between internal resolution (600) and displayed CSS width
+            const scaleX = game4Canvas.width / rect.width; 
+            
+            // Map client coordinate to internal canvas coordinate
+            let relativeX = clientX - rect.left;
+            let canvasX = relativeX * scaleX;
+
+            let newX = canvasX - game4Catcher.width / 2;
+            // ------------------------------------------------
+
+            if (newX < 0) newX = 0;
+            if (newX > game4Canvas.width - game4Catcher.width) newX = game4Canvas.width - game4Catcher.width;
+            game4Catcher.x = newX;
+        }
+
+        function game4Loop() {
+            if (!game4Active) return; 
+            updateGame4();
+            drawGame4();
+            
+            if (!level4Completed) {
+                game4AnimationId = requestAnimationFrame(game4Loop);
+            }
+        }
+        
+        function updateGame4() {
+            game4FallingItems.forEach((item, index) => {
+                item.y += item.speed;
+                
+                if (item.y + item.height > game4Catcher.y &&
+                    item.x < game4Catcher.x + game4Catcher.width &&
+                    item.x + item.width > game4Catcher.x) 
+                {
+                    if (item.name === game4Target.name) {
+                        game4Score++;
+                        game4FeedbackEl.textContent = `Tertangkap: ${game4Score} / ${game4TargetScore}`;
+                        playTargetSound(); 
+                        
+                        if (game4Score >= game4TargetScore) {                            
+                            if (!level4Completed) {
+                                skor += 100;
+                                level4Completed = true;
+                            }
+                            game4Active = false; 
+                            
+                            game4FeedbackEl.textContent = `Level 4 Selesai! (+100 Poin!)`;
+                            game4BackBtn.classList.remove('d-none'); 
+                            playGameSound('bangbinwinlevel.mp3'); 
+                        }
+                    } else {
+                        playGameSound('Wrong.mp3'); 
+                    }
+                    game4FallingItems.splice(index, 1); 
+                }
+                
+                if (item.y > game4Canvas.height) {
+                    game4FallingItems.splice(index, 1);
+                }
+            });
+            
+            game4SpawnTimer++;
+            if (game4SpawnTimer > 100) { 
+                game4SpawnTimer = 0;
+                const randomIndex = Math.floor(Math.random() * galleryInfo.length);
+                const randomInst = galleryInfo[randomIndex];
+                game4FallingItems.push({
+                    name: randomInst.name,
+                    x: Math.random() * (game4Canvas.width - GAME4_ITEM_SIZE), 
+                    y: -GAME4_ITEM_SIZE, 
+                    width: GAME4_ITEM_SIZE, 
+                    height: GAME4_ITEM_SIZE, 
+                    speed: Math.random() * 1 + 0.5 
+                });
+            }
+        }
+        
+        function drawGame4() {
+            game4Ctx.clearRect(0, 0, game4Canvas.width, game4Canvas.height);
+            game4Ctx.fillStyle = 'white';
+            game4Ctx.fillRect(game4Catcher.x, game4Catcher.y, game4Catcher.width, game4Catcher.height);
+            game4FallingItems.forEach(item => {
+                const img = game4Images[item.name];
+                if (img && img.complete && !img.isBroken) {
+                    game4Ctx.drawImage(img, item.x, item.y, item.width, item.height);
+                } else {
+                    // Fallback text if image missing
+                    game4Ctx.fillStyle = '#6c757d'; 
+                    game4Ctx.fillRect(item.x, item.y, item.width, item.height);
+                    game4Ctx.fillStyle = 'white';
+                    game4Ctx.font = '10px Arial';                    
+                    game4Ctx.fillText(item.name.substring(0, 5), item.x + item.width/2 - 15, item.y + item.height / 2 + 4); 
+                }
+            });
+        }
+
+        // --- GLOBAL EVENT LISTENERS ---
+        document.querySelectorAll('.home-btn').forEach(addHoverSound); 
+        document.querySelectorAll('.home-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const targetScreen = e.currentTarget.dataset.targetScreen;
+                if (targetScreen) {
+                    showScreen(targetScreen);
+                }
+            });
+        });
+
+        document.getElementById('map-btn-materi').addEventListener('click', () => showScreen('section-materi'));
+        document.getElementById('map-btn-level1').addEventListener('click', () => showScreen('section-game-1'));
+        document.getElementById('map-btn-level2').addEventListener('click', () => {
+            if (level1Completed) showScreen('section-game-2'); 
+        });
+        document.getElementById('map-btn-level3').addEventListener('click', () => {
+            if (level2Completed) showScreen('section-game-3');
+        });
+        document.getElementById('map-btn-level4').addEventListener('click', () => {
+            if (level3Completed) showScreen('section-game-4');
+        });
+        document.getElementById('map-btn-final').addEventListener('click', () => {
+            if (level4Completed) showScreen('section-final');
+        });
+        
+        document.getElementById('resetBtn').addEventListener('click', resetGame);
+        document.getElementById('materi-back-btn').addEventListener('click', () => showScreen('section-map'));
+        showScreen('section-map'); 
+
+    </script>
+</body>
+</html>
