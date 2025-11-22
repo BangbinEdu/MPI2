@@ -1,0 +1,32 @@
+/* Fredoka One — Normal 400 */
+@font-face {
+    font-family: 'Fredoka One';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    /* CSS dan file font berada di folder yang sama -> langsung nama file */
+    src: url('./Fredoka-one-Normal-400.woff2') format('woff2');
+}
+
+/* Fredoka — Normal 400 */
+@font-face {
+    font-family: 'Fredoka';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./latin-Fredoka-Normal-400.woff2') format('woff2');
+}
+
+/* Fredoka — Medium 500 (jika ada) */
+@font-face {
+    font-family: 'Fredoka';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('./latin-Fredoka-Normal-500.woff2') format('woff2');
+}
+
+/* Gunakan font di seluruh halaman */
+body {
+    font-family: 'Fredoka', 'Fredoka One', sans-serif;
+}
