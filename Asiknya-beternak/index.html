@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asiknya beternak!!!</title>
+     <link href="style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style/fontawesome/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="image/favicon.ico" type="image/x-icon">   
+ 
+    <style>
+        html, body {
+            overflow-x: hidden;
+        }
+
+@font-face {
+  font-family: 'Fredoka One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('style/font/Fredoka-one-Normal-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('style/font/latin-Fredoka-Normal-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('style/font/latin-Fredoka-Normal-500.woff2') format('woff2');
+}
+
+        
+
+        body {
+            font-family: 'Fredoka', 'Fredoka One', sans-serif;
+            background-color: #fef3c7; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%; 
+        }
+        .font-title {
+            font-family: 'Fredoka One', cursive;
+			font-weight: 900;
+        }
+        
+        .book-container {
+            width: 95vw;
+            max-width: 1200px; 
+            aspect-ratio: 1200 / 700;
+            height: auto;
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1500px;
+        }
+        .book {
+            width: 50%;
+            height: 100%;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform-style: preserve-3d;
+        }
+        
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transform-origin: left;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform: rotateY(0deg);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 0 24px 24px 0;
+            cursor: pointer;
+            user-select: none; 
+            will-change: transform;
+        }
+        
+        /* PERBAIKAN PENTING: Agar input bisa diketik */
+        .page input, .page textarea {
+            user-select: text !important;
+            pointer-events: auto !important;
+            cursor: text !important;
+        }
+
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+        
+        
+        .page-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            box-sizing: border-box;
+            padding: 2rem 1.5rem; 
+            background-color: #f8fafc; 
+            border-radius: 0 24px 24px 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            color: #1e293b; 
+        }
+        .page-content.back-side {
+            transform: rotateY(180deg);
+            border-radius: 24px 0 0 24px;
+        }
+        
+        .flex-center-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 0.75rem; 
+        }
+        .cover {
+            
+            color: white;
+        }
+        
+        
+        .navigation-buttons {
+            position: relative;
+            display: flex;
+            gap: 10px; 
+            align-items: center; 
+            z-index: 1001; 
+        }
+        .nav-button {
+            width: 50px; 
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            transition: all 0.1s ease-in-out, transform 0.2s ease;
+            box-shadow: 0 4px 0 #1e40af; 
+        }
+        .nav-button:active {
+            transform: translateY(2px) scale(1.05); 
+            box-shadow: 0 2px 0 #1e40af;
+        }
+        .nav-button:hover {
+            background: linear-gradient(145deg, #4b8cf6, #2e5fde);
+            transform: scale(1.1);
+        }
+        #mute-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            background: linear-gradient(145deg, #f97316, #ea580c);
+            box-shadow: 0 4px 0 #c2410c;
+        }
+         #mute-btn:active {
+            transform: translateY(2px) scale(1.05); 
+            box-shadow: 0 2px 0 #c2410c;
+        }
+        #mute-btn:hover {
+            background: linear-gradient(145deg, #fa8a3a, #f97316);
+            transform: scale(1.1);
+        }
+
+        
+        .daftar-isi-item {
+            display: flex;
+            align-items: baseline;
+            width: 100%; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: background-color 0.2s; 
+            border-radius: 8px; 
+            padding: 0.25rem 0.5rem; 
+            margin: 0 -0.5rem; 
+        }
+        .daftar-isi-item:hover {
+            background-color: #e2e8f0; 
+        }
+        
+        
+        .daftar-isi-item .dots {
+            flex-grow: 1;
+            border-bottom: 2px dotted #94a3b8;
+            margin: 0 0.5rem;
+            flex-shrink: 0; 
+            position: relative;
+            bottom: 4px;
+        }
+        .daftar-isi-item span:first-child {
+            flex-grow: 0;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+        .daftar-isi-item span:last-child {
+            flex-grow: 0;
+            flex-shrink: 0;
+            min-width: 2rem; 
+            text-align: right;
+        }
+        
+        .daftar-isi-icon {
+            width: 1.25rem; 
+            margin-right: 0.25rem;
+            text-align: center;
+            display: inline-block;
+            vertical-align: middle; 
+        }
+        
+        
+        .info-list {
+            display: grid;
+            grid-template-columns: auto 1fr; 
+            gap: 0.5rem 0.5rem; 
+            align-items: baseline; 
+            font-size: 0.9rem; 
+        }
+        .info-list-label {
+            font-weight: 700; 
+            color: #212529; 
+            position: relative;
+            padding-right: 2rem; 
+            white-space: nowrap;
+        }
+        .info-list-label::after {
+            content: ":";
+            position: absolute;
+            right: 0.5rem;
+            top: 0;
+        }
+        .info-list-value {
+            
+        }
+
+        
+        @keyframes milk-fill {
+            from { height: 0; }
+            to { height: 100%; }
+        }
+        .milk-fill-anim {
+            animation: milk-fill 1s ease-out forwards;
+        }
+        
+        @keyframes horse-run {
+            0% { transform: translateX(-20px) rotate(-5deg); }
+            50% { transform: translateX(30px) rotate(5deg); }
+            100% { transform: translateX(-20px) rotate(-5deg); }
+        }
+        .horse-run-anim {
+            animation: horse-run 1s ease-in-out;
+        }
+
+        
+        @keyframes bee-fly {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-10px, -10px) rotate(-15deg); }
+            50% { transform: translate(10px, 0px) rotate(15deg); }
+            75% { transform: translate(-5px, 10px) rotate(-10deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .bee-fly-anim {
+            animation: bee-fly 0.5s ease-in-out;
+        }
+
+        
+        .quiz-btn {
+            font-size: 1.1rem; 
+            padding: 0.6rem 1.2rem; 
+            border-radius: 12px;
+            box-shadow: 0 4px 0 #1d4ed8; 
+            transition: all 0.1s ease-in-out;
+            border: none; 
+        }
+        .quiz-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1d4ed8;
+        }
+        .quiz-btn:hover {
+            color: white; 
+        }
+
+        
+        .quiz-option {
+            width: 6rem; 
+            height: 6rem; 
+            background-color: white;
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s;
+            padding: 0.5rem;
+            border: none; 
+        }
+        .quiz-option:hover {
+            transform: scale(1.1);
+            background-color: #f0f9ff; 
+        }
+        .quiz-option.correct {
+            box-shadow: 0 0 0 4px #22c55e;
+        }
+        .quiz-option.wrong {
+            box-shadow: 0 0 0 4px #ef4444;
+        }
+        
+        .quiz-option img {
+            width: 4rem; 
+            height: 4rem; 
+            object-fit: contain;
+            pointer-events: none; 
+        }
+
+
+        
+        .puzzle-piece {
+            width: 5.5rem; 
+            height: 5.5rem; 
+            background-color: white;
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s;
+            padding: 0.5rem;
+            border: none; 
+        }
+        
+        .puzzle-piece img {
+            width: 4rem; 
+            height: 4rem; 
+            object-fit: contain;
+            pointer-events: none; 
+        }
+        .puzzle-piece.selected {
+            box-shadow: 0 0 0 4px #3b82f6;
+            transform: scale(1.05);
+        }
+        .puzzle-piece.matched {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: scale(0.9);
+        }
+        
+        .puzzle-product {
+            font-family: 'Fredoka', sans-serif; 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            color: #1d4ed8;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            height: 5.5rem; 
+            line-height: 1.3;
+        }
+        .puzzle-product.selected {
+            box-shadow: 0 0 0 4px #3b82f6;
+            transform: scale(1.05);
+        }
+        .puzzle-product.matched {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: scale(0.9);
+            background-color: #e5e7eb;
+        }
+       
+        .memory-card {
+            width: 100%; 
+            height: 5.5rem; 
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+            cursor: pointer;
+        }
+        .memory-card .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); 
+            font-size: 3rem; 
+            padding: 0.5rem;
+        }
+        
+        .memory-card .card-front img {
+            width: 4rem; 
+            height: 4rem; 
+            object-fit: contain;
+        }
+        .memory-card .card-front {
+            transform: rotateY(180deg);
+        }
+        .memory-card .card-back {
+            background-color: #60a5fa; 
+            color: white;
+            font-size: 3rem; 
+        }
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+		.memory-card.matched {
+            cursor: not-allowed;
+        }
+        .memory-card.matched .card-back {
+            background-color: #22c55e; 
+            color: white;
+        }
+        
+        .egg-draggable {
+            cursor: grab;
+            transition: opacity 0.2s;
+        }
+        .egg-draggable.dragging {
+            opacity: 0.4;
+            cursor: grabbing;
+        }
+        .egg-draggable.placed {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        #egg-basket.drag-over {
+            background-color: #fef08a; 
+            border-style: solid;
+        }
+        #egg-nest, #egg-basket {
+             background-color: #a16207; 
+             border-color: #713f12; 
+             width: 8rem;
+             height: 5.5rem;
+        }
+        
+        
+        #puzzle-game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+        }
+        #puzzle-grid-target {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+            width: 12.25rem; 
+            height: 12.25rem;
+            padding: 2px;
+            background-color: #d1d5db; 
+            border-radius: 0.5rem;
+        }
+        .puzzle-drop-zone {
+            width: 6rem; 
+            height: 6rem;
+            background-color: #e5e7eb;
+            border: 2px dashed #9ca3af;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+        .puzzle-drop-zone.drag-over {
+            background-color: #c7d2fe; 
+            border-style: solid;
+        }
+        
+        .puzzle-drop-zone .puzzle-piece-drag {
+            width: 100%;
+            height: 100%;
+            box-shadow: none;
+            border-radius: 0;
+        }
+        
+        #puzzle-pieces-source {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 13rem; 
+            min-height: 6rem;
+        }
+        .puzzle-piece-drag {
+            width: 6rem; 
+            height: 6rem; 
+            background-color: white;
+            border-radius: 0.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); 
+            cursor: grab;
+            transition: all 0.2s;
+            background-size: 200% 200%; 
+        }
+        .puzzle-piece-drag.dragging {
+            opacity: 0.4;
+            cursor: grabbing;
+            transform: scale(1.1);
+        }
+        .puzzle-piece-drag.placed {
+            cursor: not-allowed;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .tujuan-section {
+            font-size: 0.9rem; 
+            width: 100%; 
+        }
+        
+        .penulis-bg {
+            position: relative;
+            z-index: 1; 
+        }
+        .penulis-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('image/Ika2.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3; 
+            z-index: -1;
+            border-radius: 24px 0 0 24px; 
+        }
+
+        
+        .hover-scale {
+            transition: transform 0.2s;
+        }
+        .hover-scale:hover {
+            transform: scale(1.1);
+        }
+        
+        .space-y-1 > * + * { margin-top: 0.25rem; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .space-y-3 > * + * { margin-top: 0.75rem; }
+        .text-purple { color: #a855f7; }
+        .text-purple-emphasis { color: #581c87; }
+        .text-teal-emphasis { color: #115e59; }
+        .text-indigo-emphasis { color: #3730a3; }
+        .text-orange-emphasis { color: #9a3412; }
+        .text-orange-200 { color: #fed7aa; }
+        .hover-scale-150 {
+            transition: transform 0.2s;
+        }
+        .hover-scale-150:hover { transform: scale(1.5); }
+        .petunjuk-item {
+            transition: background-color 0.2s;
+            font-size: 1rem; 
+        }
+        .petunjuk-item:hover {
+            background-color: #e2e8f0; 
+        }
+        .hover-text-primary:hover {
+            color: #0d6efd !important; 
+        }
+        
+        
+        .bg-teal-500 { background-color: #14b8a6 !important; }
+        .bg-teal-500:hover { background-color: #0d9488 !important; }
+        .shadow-teal-700 { box-shadow: 0 4px 0 #0f766e; }
+        .shadow-teal-700:active { box-shadow: 0 2px 0 #0f766e; }
+        
+        .bg-indigo-500 { background-color: #6366f1 !important; }
+        .bg-indigo-500:hover { background-color: #4f46e5 !important; }
+        .shadow-indigo-700 { box-shadow: 0 4px 0 #4338ca; }
+        .shadow-indigo-700:active { box-shadow: 0 2px 0 #4338ca; }
+        
+        .bg-orange-500 { background-color: #f97316 !important; }
+        .bg-orange-500:hover { background-color: #ea580c !important; }
+        .shadow-orange-700 { box-shadow: 0 4px 0 #c2410c; }
+        .shadow-orange-700:active { box-shadow: 0 2px 0 #c2410c; }
+        
+        .bg-gradient-bangbin1 {
+            background-image: linear-gradient(to bottom right, #ffffff, #69d86f);
+        }
+        .bg-gradient-bangbin2 {
+            background-image: linear-gradient(to top, #ffffff, #72abe0);
+        }
+        .bg-gradient-bangbin3 {
+            background-image: linear-gradient(to top, #ffffff, #e48ce7);
+        }
+        
+        .bg-success { background-color: #198754 !important; }
+        .bg-success:hover { background-color: #157347 !important; }
+        .shadow-success-dark { box-shadow: 0 4px 0 #145a32; }
+        .shadow-success-dark:active { box-shadow: 0 2px 0 #145a32; }
+
+        #certificate-wrapper {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: none; 
+            font-family: 'Fredoka', sans-serif;
+            color: #333;
+        }
+        .certificate-content {
+            width: 90%;
+            max-width: 1000px;
+            height: 90%;
+            max-height: 700px;
+            margin: 2.5% auto;
+            border: 10px solid #60a5fa; 
+            border-radius: 20px;
+            padding: 1rem; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #f8fafc;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .cert-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.5rem; 
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+        .cert-subtitle {
+            font-size: 1.2rem; 
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        .cert-name {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem; 
+            color: #f97316; 
+            margin-bottom: 1rem;
+            border-bottom: 2px dashed #f97316;
+            padding-bottom: 0.5rem;
+            min-width: 200px;
+        }
+        .cert-body {
+            font-size: 1.5rem; 
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 0.9rem; 
+        }
+        .cert-logo {
+            width: 4rem; 
+            height: 4rem;
+        }
+        .cert-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.8rem;
+        }
+        
+        .copyright-header {
+            font-family: Arial, sans-serif; 
+            font-size: 0.6rem; 
+            line-height: 1.3;
+            text-transform: uppercase;
+        }
+        .copyright-table td {
+             font-size: 0.55rem;
+        }
+        .copyright-footer {
+             font-size: 0.55rem;
+        }
+        
+        @media (min-width: 768px) {
+            .page-content {
+                padding: 2rem 5rem; 
+                font-size: 1rem; 
+            }
+            .book-container {
+                aspect-ratio: 1200 / 700; 
+            }
+            .nav-button {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+            #mute-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            .info-list {
+                font-size: 1.2rem; 
+            }
+            .tujuan-section {
+                font-size: 1.2rem; 
+            }
+            .petunjuk-item {
+                font-size: 1.2rem; 
+            }
+            .daftar-isi-item {
+                font-size: 1.2rem;
+            }
+            .quiz-btn {
+                font-size: 1.25rem;
+                padding: 0.75rem 1.5rem;
+            }
+            .quiz-option {
+                width: 6rem;
+                height: 6rem;
+            }
+            .quiz-option img {
+                width: 4rem;
+                height: 4rem;
+            }
+            .puzzle-piece {
+                width: 5.5rem;
+                height: 5.5rem;
+            }
+            .puzzle-piece img {
+                width: 4rem;
+                height: 4rem;
+            }
+            .puzzle-product {
+                font-size: 1.1rem;
+                height: 5.5rem;
+            }
+            .memory-card {
+                height: 5.5rem;
+            }
+            .memory-card .card-front img {
+                width: 4rem;
+                height: 4rem;
+            }
+            .memory-card .card-front span {
+                font-size: 1.25rem !important;
+            }
+            .memory-card .card-back {
+                font-size: 3rem;
+            }
+            #memory-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            #egg-nest, #egg-basket {
+                 width: 9rem;
+                 height: 6rem;
+            }
+            #puzzle-grid-target {
+                width: 12.25rem;
+                height: 12.25rem;
+            }
+            .puzzle-drop-zone {
+                width: 6rem;
+                height: 6rem;
+            }
+            .puzzle-piece-drag {
+                width: 6rem;
+                height: 6rem;
+            }
+            #puzzle-pieces-source {
+                max-width: 15rem;
+            }
+            .daftar-pustaka-list {
+                font-size: 1.1rem;
+            }
+            .cert-title { font-size: 3.5rem; }
+            .cert-subtitle { font-size: 1.5rem; }
+            .cert-name { font-size: 3rem; }
+            .cert-body { font-size: 2.75rem; }
+            .cert-logo { width: 5rem; height: 5rem; }
+            .certificate-content { padding: 2rem; border-width: 20px; }
+            
+            .copyright-header { font-size: 0.9rem; margin-bottom: 1.5rem !important; }
+            .copyright-table td { font-size: 0.8rem; padding-bottom: 10px !important; }
+            .copyright-footer { font-size: 0.8rem; }
+        }
+
+        @media print {
+            body > *:not(#certificate-wrapper) {
+                display: none !important;
+            }
+            #certificate-wrapper {
+                display: block !important;
+                position: absolute;
+                top: 10;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                margin: 0;
+                padding: 0;
+            }
+            .certificate-content {
+                width: 95%;
+                height: 95%;
+                max-width: none;
+                max-height: none;
+                margin: 2.5%;
+                border-width: 15px;
+                box-shadow: none;
+            }
+            .cert-title { font-size: 4rem; }
+            .cert-subtitle { font-size: 2.5rem; } /
+            .cert-name { font-size: 3.5rem; }
+            .cert-body { font-size: 2.25rem; } 
+            .cert-logo { width: 4.5rem; height: 4.5rem; } 
+            
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <div class="book-container">
+            <div class="book" id="book">
+                
+                <div class="page">
+                    <div class="page-content cover flex-center-col text-white" style="background-image: url('image/Sampul.png'); background-size: cover; background-position: center;">
+                    </div>
+                    <div class="page-content back-side d-flex flex-column justify-content-center align-items-center bg-white h-100 p-4">                    
+                        <img src="image/favicon.ico" alt="Logo Kemdikbud" class="object-fit-contain mb-3" style="width: 5rem; height: 5rem;">
+                        <h3 class="fs-3 font-title text-primary-emphasis">Selamat Datang!</h3>
+                        <p class="fs-5 text-secondary text-center mb-3">Tulis namamu untuk sertifikat di akhir buku.</p>
+                        <input type="text" id="visitor-name-input" autocomplete="off" class="form-control form-control-lg text-center font-title fs-4" placeholder="Ketik nama..." style="width: 80%; max-width: 300px; border-radius: 12px; border-width: 2px;">
+                        <button id="save-name-btn" class="quiz-btn fs-5 mt-3" style="padding: 0.5rem 1.5rem;">
+                            <i class="fa-solid fa-save"></i> Simpan
+                        </button>
+                        <p id="name-saved-feedback" class="fs-5 fw-medium mt-2" style="height: 1.5rem;"></p>                        
+                    </div>
+                </div>
+
+                <div class="page">
+                    <!-- Halaman Hak Cipta: Background diubah menjadi putih (bg-white) -->
+                    <div class="page-content d-flex flex-column align-items-center justify-content-center bg-white">
+                        <div class="position-absolute top-50 start-50 translate-middle opacity-25" style="z-index: 0; width: 60%;">
+                             <img src="image/favicon.ico" alt="Watermark" class="w-100" style="filter: grayscale(100%); opacity: 0.1;">
+                        </div>
+                        
+                        <div class="position-relative" style="z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <img src="image/favicon.ico" alt="Logo" class="mb-3" style="width: 4rem; height: auto;">
+                            
+                            <div class="text-center fw-bold mb-3 copyright-header" style="font-family: sans-serif;">
+                                DIREKTORAT SEKOLAH DASAR<br>
+                                KEMENTERIAN PENDIDIKAN DASAR DAN MENENGAH<br>
+                                DIREKTORAT JENDERAL PENDIDIKAN ANAK USIA DINI, PENDIDIKAN DASAR DAN PENDIDIKAN MENENGAH
+                            </div>
+                            
+                            <div style="width: 100%; height: 1px; background-color: #ea580c; margin-bottom: 1.5rem;"></div>
+                            
+                            <div class="w-100 px-2" style="font-family: sans-serif;">
+                                <table class="w-100 copyright-table">
+                                     <tr class="align-top">
+                                        <td class="fw-bold text-primary" style="width: 35%; padding-bottom: 6px;">Pengarah</td>
+                                        <td style="width: 2%;">:</td>
+                                        <td style="padding-bottom: 6px;">Moch. Salim Somad, S.Kom., M.Pd., Direktorat Sekolah Dasar</td>
+                                    </tr>
+                                    <tr class="align-top">
+                                        <td class="fw-bold text-primary" style="padding-bottom: 6px;">Penanggung Jawab</td>
+                                        <td>:</td>
+                                        <td style="padding-bottom: 6px;">Lanny Anggraini, S.Pd., M.A., Direktorat Sekolah Dasar</td>
+                                    </tr>
+                                    <tr class="align-top">
+                                        <td class="fw-bold text-primary" style="padding-bottom: 6px;">Pengembang</td>
+                                        <td>:</td>
+                                        <td style="padding-bottom: 6px;">Bintang Adhi Permana, M.Pd</td>
+                                    </tr>
+                                    <tr class="align-top">
+                                        <td class="fw-bold text-primary" style="padding-bottom: 6px;">Pengkaji Materi</td>
+                                        <td>:</td>
+                                        <td style="padding-bottom: 6px;">Kurator, MBG</td>
+                                    </tr>
+                                    <tr class="align-top">
+                                        <td class="fw-bold text-primary" style="padding-bottom: 6px;">Pengkaji Media</td>
+                                        <td>:</td>
+                                        <td style="padding-bottom: 6px;">
+                                            1. Muh. Noor Ginanjar Jaelani, S.Pd., Direktorat Sekolah Dasar<br>
+                                            2. Ine Rahmawati, S.Pd., M.Si., Direktorat Sekolah Dasar
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div class="mt-auto pt-4 text-start w-100 copyright-footer" style="font-family: sans-serif;">
+                                <span class="fw-bold text-primary">Diterbitkan oleh</span> &nbsp;&nbsp;: &nbsp;&nbsp;Direktorat Sekolah Dasar<br>
+                                <span class="ps-4 ms-4 d-block text-secondary">
+                                    Direktorat Jenderal Pendidikan Anak Usia Dini, Pendidikan Dasar, dan Pendidikan Menengah<br>
+                                    Kementerian Pendidikan Dasar dan Menengah<br>
+                                    Tahun 2025
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Halaman Input Nama: Background diubah menjadi gradient hijau (bg-gradient-bangbin1) -->
+                    <div class="page-content copyright-page back-side d-flex flex-column align-items-center justify-content-center position-relative bg-gradient-bangbin1 text-dark">                
+                        <img src="image/favicon.ico" alt="Logo Kemdikbud" class="object-fit-contain mb-3" style="width: 5rem; height: 5rem;">
+        
+                    </div>
+                </div>
+
+                <div class="page">
+                    <div class="page-content d-flex flex-column bg-gradient-bangbin2">
+                        <h2 class="fs-3 mb-3 font-title text-center text-primary-emphasis">Hewan Ternak!!!</h2>
+                        
+                        <div class="container-fluid text-secondary-emphasis p-0 info-list">
+                            <span class="info-list-label">Pelajaran</span>
+                            <span class="info-list-value">Bahasa Indonesia</span>
+                            <span class="info-list-label">Topik</span>
+                            <span class="info-list-value">Membaca, Memirsa, dan Menyimak</span>
+                            <span class="info-list-label">Subtopik</span>
+                            <span class="info-list-value">Aktivitas Membaca Gambar dan Teks Sederhana</span>
+                            <span class="info-list-label">Fase A</span>
+                            <span class="info-list-value">Kelas 1</span>
+                        </div>
+                        <div class="mt-4 tujuan-section">
+                            <p class="fw-bold text-secondary-emphasis">Tujuan Pembelajaran:</p>
+                            <ul class="list-unstyled ps-4 text-secondary space-y-0 mt-1 mb-1" style="list-style-type: disc;">
+                                <li>Membaca teks berdasarkan gambar</li>
+                                <li>Menemukan teks yang tepat berdasarkan gambar.</li>
+                            </ul>
+                        </div>
+                        <div class="text-secondary mt-4 info-list">
+                            <span class="info-list-label">Penulis</span>
+                            <span class="info-list-value">Bintang Adhi Permana, M.Pd</span>
+                            <span class="info-list-label">Penerbit</span>
+                            <span class="info-list-value">
+                                Direktorat Jendral Sekolah Dasar<br>
+                                Kementrian Pendidikan Dasar dan Menengah
+                            </span>
+                            <span class="info-list-label">Terbitan</span>
+                            <span class="info-list-value">Pertama, 2025</span>
+                        </div>
+                    </div>
+
+                    <div class="page-content back-side d-flex flex-column bg-gradient-bangbin3">
+                        <h2 class="fs-2 mb-3 font-title text-center text-primary-emphasis">Petunjuk Penggunaan</h2>
+                        <br><br>
+                        <div class="d-flex flex-column align-items-center w-100 gap-2">
+                            <div class="space-y-1 text-start">
+                                <div class="d-flex align-items: center gap-2 petunjuk-item cursor-pointer rounded-3 p-1" data-sound="petunjuk1">
+                                    <i class="fa-solid fa-arrows-left-right text-center fs-5 text-primary" style="width: 1.5rem;"></i>
+                                    <span>Klik panah di bawah atau klik halaman untuk membalik lembar buku.</span>
+                                </div>
+                                <div class="d-flex align-items: center gap-2 petunjuk-item cursor-pointer rounded-3 p-1" data-sound="petunjuk2">
+                                    <i class="fa-solid fa-hand-pointer text-center fs-5 text-purple" style="width: 1.5rem;"></i>
+                                    <span>Klik hewannya untuk mendengarkan keterangannya.</span>
+                                </div>
+                                <div class="d-flex align-items: center gap-2 petunjuk-item cursor-pointer rounded-3 p-1" data-sound="petunjuk3">
+                                    <i class="fa-solid fa-volume-high text-center fs-5 text-success" style="width: 1.5rem;"></i>
+                                    <span>Klik hewannya untuk mendengarkan suaranya.</span>
+                                </div>
+                                 <div class="d-flex align-items: center gap-2 petunjuk-item cursor-pointer rounded-3 p-1" data-sound="petunjuk4">
+                                    <i class="fa-solid fa-question-circle text-center fs-5 text-danger" style="width: 1.5rem;"></i>
+                                    <span>Selesaikan semua kuis seru di akhir buku!</span>
+                                </div>
+                            </div>
+
+                            <p class="text-center text-secondary mt-2 fw-medium" style="font-size: 0.9rem;">
+                                Klik setiap petunjuk di atas untuk mendengarkan.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page">
+                    <div class="page-content d-flex flex-column bg-gradient-bangbin2">
+                        <h2 class="fs-2 text-primary-emphasis mb-3 font-title text-center">Daftar Isi</h2>
+                        <div class="space-y-1 text-secondary-emphasis w-100">
+                            <div class="daftar-isi-item" data-target-page="4">
+                                <span><img src="image/Sapi.png" alt="Ikon Sapi" class="daftar-isi-icon"> Sapi</span>
+                                <span class="dots"></span>
+                                <span>3</span>
+                            </div>
+                            <div class="daftar-isi-item" data-target-page="4">
+                                <span><img src="image/Domba.png" alt="Ikon Domba" class="daftar-isi-icon"> Domba</span>
+                                <span class="dots"></span>
+                                <span>4</span>
+                            </div>
+                            <div class="daftar-isi-item" data-target-page="5">
+                                <span><img src="image/Ayam.png" alt="Ikon Ayam" class="daftar-isi-icon"> Ayam</span>
+                                <span class="dots"></span>
+                                <span>5</span>
+                            </div>
+                            <div class="daftar-isi-item" data-target-page="5">
+                                <span><img src="image/Kuda.png" alt="Ikon Kuda" class="daftar-isi-icon"> Kuda</span>
+                                <span class="dots"></span>
+                                <span>6</span>
+                            </div>
+                            <div class="daftar-isi-item" data-target-page="6">
+                                <span><img src="image/Lebah.png" alt="Ikon Lebah" class="daftar-isi-icon"> Lebah</span>
+                                <span class="dots"></span>
+                                <span>7</span>
+                            </div>
+                            <div class="daftar-isi-item" data-target-page="6">
+                                <span><img src="image/Bebek.png" alt="Ikon Bebek" class="daftar-isi-icon"> Bebek</span>
+                                <span class="dots"></span>
+                                <span>8</span>
+                            </div>
+                            <div class="daftar-isi-item" data-target-page="7">
+                                <span><i class="fa-solid fa-volume-high daftar-isi-icon"></i> Galeri Suara</span>
+                                <span class="dots"></span>
+                                <span>9</span>
+                            </div>
+                            <div class="daftar-isi-item" data-target-page="7">
+                                <span><i class="fa-solid fa-puzzle-piece daftar-isi-icon"></i> Kuis Seru</span>
+                                <span class="dots"></span>
+                                <span>10</span>
+                            </div>
+                            <div class="daftar-isi-item" data-target-page="10">
+                                <span><i class="fa-solid fa-book daftar-isi-icon"></i> Daftar Pustaka</span>
+                                <span class="dots"></span>
+                                <span>14</span>
+                            </div>
+                            <div class="daftar-isi-item" data-target-page="10">
+                                <span><i class="fa-solid fa-user daftar-isi-icon"></i> Penulis</span>
+                                <span class="dots"></span>
+                                <span>15</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-content back-side flex-center-col gap-2" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                        <h2 class="fs-1 text-success-emphasis font-title">Halo, aku Sapi!</h2>
+                        <div class="d-flex flex-column align-items: center justify-content-center position-relative my-2">
+                            <div id="milk-interaction" class="position-absolute border border-4 border-secondary-subtle rounded-top-pill rounded-bottom d-none overflow-hidden" style="bottom: -2rem; right: -2.5rem; width: 4rem; height: 6rem;">
+                                <div id="milk-fill" class="position-absolute bottom-0 start-0 w-100 bg-white"></div>
+                            </div>
+                            <img id="cow-btn" src="image/Sapi.png" alt="Sapi" class="w-auto cursor-pointer transition-transform hover-scale active-scale-95 shadow-lg" style="height: 8rem;">
+                        </div>
+                        <p class="fs-5 md:fs-4 text-success-dark text-center">
+                            Aku senang makan rumput. Kalau aku senang, aku bilang... <strong class="fs-4 md:fs-3 font-title">MOOO!</strong>
+                            <span class="d-block fs-6 mt-1">(Klik aku untuk memberi susu!)</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="page">
+                    <div class="page-content flex-center-col gap-2" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                        <h2 class="fs-1 text-info-emphasis font-title">Hai, aku Domba!</h2>
+                        <div class="d-flex flex-column align-items: center justify-content-center position-relative my-2">
+                            <i id="wool-interaction" class="fa-solid fa-shirt fs-1 text-purple position-absolute opacity-0 transition-all duration-500 d-none" style="top: -2rem; right: -1.25rem;"></i>
+                            <img id="sheep-btn" src="image/Domba.png" alt="Domba" class="w-auto cursor-pointer transition-transform hover-scale active-scale-95 shadow-lg" style="height: 8rem;">
+                        </div>
+                        <p class="fs-5 md:fs-4 text-info-dark text-center">
+                            Lihat buluku, tebal sekali! Suaraku... <strong class="fs-4 md:fs-3 font-title">MBEEE!</strong>
+                            <span class="d-block fs-6 mt-1">(Klik aku untuk lihat wol!)</span>
+                        </p>
+                    </div>
+                    <div class="page-content back-side flex-center-col gap-2" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                        <h2 class="fs-2 text-danger-emphasis font-title">Petok! Aku Ayam!</h2>
+                        
+                        <div class="d-flex flex-column align-items: center justify-content-center w-100 my-2">
+                            <div class="d-flex align-items-end justify-content-center gap-4 w-100">
+                                <div class="d-flex flex-column align-items: center">
+                                    <img src="image/Ayam.png" alt="Ayam" class="w-auto shadow-lg mb-2 cursor-pointer" style="height: 6rem;" onclick="playInfoSound('ayam')">
+                                    
+                                    <div id="egg-nest" class="rounded-pill d-flex align-items: center justify-content-center gap-1 p-2 border border-4 border-dashed">
+                                        <i id="egg1" class="fa-solid fa-egg fs-2 text-orange-200 egg-draggable" draggable="true"></i>
+                                        <i id="egg2" class="fa-solid fa-egg fs-2 text-orange-200 egg-draggable" draggable="true"></i>
+                                        <i id="egg3" class="fa-solid fa-egg fs-2 text-orange-200 egg-draggable" draggable="true"></i>
+                                    </div>
+                                    <span class="fs-5 text-danger-emphasis fw-medium mt-1">Sarang</span>
+                                </div>
+
+                                <div class="d-flex flex-column align-items: center">
+                                    <i class="fa-solid fa-basket-shopping fs-1 md:fs-1 text-warning-emphasis shadow-lg mb-2"></i>
+                                    <div id="egg-basket" class="rounded-3 d-flex align-items: center justify-content-center gap-1 p-2 border border-4 border-dashed">
+                                    </div>
+                                    <span class="fs-5 text-danger-emphasis fw-medium mt-1">Keranjang</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="fs-5 md:fs-4 text-danger-dark text-center">
+                            Bantu aku memindahkan telur!
+                            <span class="d-block fs-6 mt-1">(Drag dan drop telur!)</span>
+                        </p>
+                        <p id="egg-feedback" class="fs-4 font-title text-success" style="height: 1.5rem;"></p>
+                    </div>
+                </div>
+
+                <div class="page">
+                    <div class="page-content flex-center-col gap-2" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                        <h2 class="fs-1 text-warning-emphasis font-title">Whoosh! Aku Kuda!</h2>
+                        <div class="d-flex flex-column align-items: center justify-content-center position-relative my-2">
+                            <img id="horse-btn" src="image/Kuda.png" alt="Kuda" class="w-auto cursor-pointer shadow-lg" style="height: 8rem;">
+                        </div>
+                        <p class="fs-5 md:fs-4 text-warning-dark text-center">
+                            Aku pelari cepat! Suaraku... <strong class="fs-4 md:fs-3 font-title">HIIII-HA!</strong>
+                            <span class="d-block fs-6 mt-1">(Klik aku untuk berlari!)</span>
+                        </p>
+                    </div>
+                    <div class="page-content back-side flex-center-col gap-2" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                        <h2 class="fs-1 text-orange-emphasis font-title">Mmmmmmmm! Aku Lebah!</h2>
+                        <div class="d-flex flex-column align-items: center justify-content-center position-relative my-2">
+                            <img id="bee-btn" src="image/Lebah.png" alt="Lebah" class="w-auto cursor-pointer shadow-lg" style="height: 8rem;">
+                        </div>
+                        <p class="fs-5 md:fs-4 text-orange-dark text-center">
+                            Aku suka membuat madu! <strong class="fs-4 md:fs-3 font-title">Mmmmmm!</strong>
+                            <span class="d-block fs-6 mt-1">(Klik aku untuk terbang!)</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="page">
+                    <div class="page-content flex-center-col gap-2" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                        <h2 class="fs-1 text-info-emphasis font-title">Kwek! Aku Bebek!</h2>
+                        <div class="d-flex flex-column align-items: center justify-content-center position-relative my-2">
+                            <i id="water-splash" class="fa-solid fa-burst fs-1 text-primary position-absolute opacity-0 d-none"></i>
+                            <img id="duck-btn" src="image/Bebek.png" alt="Bebek" class="w-auto cursor-pointer transition-transform hover-scale active-scale-95 shadow-lg" style="height: 8rem;">
+                        </div>
+                        <p class="fs-5 md:fs-4 text-info-dark text-center">
+                            Aku jago berenang! <strong class="fs-4 md:fs-3 font-title">KWEK! KWEK!</strong>
+                            <span class="d-block fs-6 mt-1">(Klik aku untuk main air!)</span>
+                        </p>
+                    </div>
+					<div class="page-content back-side flex-center-col text-center" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+						<h2 class="fs-2 text-dark mb-3 font-title">Galeri Suara Hewan</h2>
+						<div class="d-grid gap-3 gap-md-4" style="grid-template-columns: repeat(3, 1fr);">  
+							<img src="image/Sapi.png" alt="Sapi" class="object-fit-contain cursor-pointer hover-scale-150" style="width: 4rem; height: 4rem;" onclick="playSound('moo')">
+							<img src="image/Domba.png" alt="Domba" class="object-fit-contain cursor-pointer hover-scale-150" style="width: 4rem; height: 4rem;" onclick="playSound('baa')">
+							<img src="image/Ayam.png" alt="Ayam" class="object-fit-contain cursor-pointer hover-scale-150" style="width: 4rem; height: 4rem;" onclick="playSound('cluck')">
+							<img src="image/Kuda.png" alt="Kuda" class="object-fit-contain cursor-pointer hover-scale-150" style="width: 4rem; height: 4rem;" onclick="playSound('neigh')">
+							<img src="image/Lebah.png" alt="Lebah" class="object-fit-contain cursor-pointer hover-scale-150" style="width: 4rem; height: 4rem;" onclick="playSound('buzz')">
+							<img src="image/Bebek.png" alt="Bebek" class="object-fit-contain cursor-pointer hover-scale-150" style="width: 4rem; height: 4rem;" onclick="playSound('quack')">
+						</div>
+						<p class="text-primary fs-4 mt-4">Klik hewan untuk mendengar suaranya!</p>
+					</div>
+                </div>
+
+                <div class="page">
+                    <div class="page-content flex-center-col gap-2" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                        <h2 class="fs-2 text-purple-emphasis font-title">Kuis 1: Tebak Suara!</h2>
+
+                        <button id="tutor-game-1" class="d-flex align-items: center gap-2 fs-5 fw-medium text-secondary-emphasis hover-text-primary text-decoration-none border-0 bg-transparent cursor-pointer">
+                            <i class="fa-solid fa-volume-high fs-4 text-primary"></i>
+                            <span>Cara Main</span>
+                        </button>
+
+                        <button id="play-quiz-sound-btn" class="quiz-btn">
+                            <i class="fa-solid fa-volume-high"></i> Putar Suara
+                        </button>
+                        <div id="quiz-options-container" class="d-flex flex-wrap justify-content-center gap-3 my-3">
+                        </div>
+                        
+                        <div id="spell-check-container" class="d-none flex-center-col gap-3" style="width: 100%;">
+                            <label id="spell-label" for="spell-input" class="fs-4 text-purple-emphasis">Ketik nama hewan: S _ _ _</label>
+                            <input type="text" id="spell-input" class="form-control form-control-lg text-center fs-4" style="width: 80%; max-width: 250px; border-radius: 12px; border-width: 2px; text-transform: uppercase;">
+                            <button id="spell-check-btn" class="quiz-btn bg-teal-500 shadow-teal-700" style="padding: 0.5rem 1.5rem;">
+                                <i class="fa-solid fa-check"></i> Periksa
+                            </button>
+                            <p id="spell-feedback" class="fs-4 text-danger" style="height: 1.5rem;"></p>
+                        </div>
+                        
+                        <p id="quiz-feedback" class="fs-3" style="height: 2rem;"></p>
+                        <button id="next-quiz-btn" class="quiz-btn d-none">
+                            Soal Berikutnya
+                        </button>
+                    </div>
+                    
+                    <div class="page-content back-side flex-center-col gap-2" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                        <h2 class="fs-2 text-teal-emphasis font-title">Kuis 2: Pasangkan!</h2>
+
+                        <button id="tutor-game-2" class="d-flex align-items: center gap-2 fs-5 fw-medium text-secondary-emphasis hover-text-primary text-decoration-none border-0 bg-transparent cursor-pointer mb-2">
+                            <i class="fa-solid fa-volume-high fs-4 text-primary"></i>
+                            <span>Cara Main</span>
+                        </button>
+                        
+                        <p id="puzzle-feedback" class="fs-3" style="height: 2rem;"></p>
+                        <div class="d-flex gap-3 w-100 justify-content-center align-items-flex-start">
+                            <div id="puzzle-animals-container" class="d-flex flex-column gap-2">
+                            </div>
+                            <div id="puzzle-shadows-container" class="d-flex flex-column gap-2">
+                            </div>
+                        </div>
+                        <button id="reset-puzzle-btn" class="quiz-btn bg-teal-500 shadow-teal-700 d-none mt-3">
+                            Ulangi Puzzle
+                        </button>
+                    </div>
+                </div>
+
+                <div class="page">
+                    <div class="page-content flex-center-col gap-2" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                        <h2 class="fs-2 text-indigo-emphasis font-title">Kuis 3: Ingat Aku!</h2>
+
+                        <button id="tutor-game-3" class="d-flex align-items: center gap-2 fs-5 fw-medium text-secondary-emphasis hover-text-primary text-decoration-none border-0 bg-transparent cursor-pointer mb-2">
+                            <i class="fa-solid fa-volume-high fs-4 text-primary"></i>
+                            <span>Cara Main</span>
+                        </button>
+
+                        <p id="memory-feedback" class="fs-3" style="height: 2rem;"></p>
+                        
+                        <div id="memory-grid" class="d-grid gap-2" style="grid-template-columns: repeat(4, 1fr); width: 100%;">
+                        </div>
+
+                        <button id="reset-memory-btn" class="quiz-btn bg-indigo-500 shadow-indigo-700 d-none mt-3">
+                            Ulangi Kuis
+                        </button>
+                    </div>
+                    <div class="page-content back-side flex-center-col" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+
+                        <h2 class="fs-2 text-orange-emphasis font-title">Kuis 4: Susun Puzzle!</h2>
+                        
+                        <button id="tutor-game-4" class="d-flex align-items: center gap-2 fs-5 fw-medium text-secondary-emphasis hover-text-primary text-decoration-none border-0 bg-transparent cursor-pointer mb-2">
+                            <i class="fa-solid fa-volume-high fs-4 text-primary"></i>
+                            <span>Cara Main</span>
+                        </button>
+
+                        <p id="puzzle-4-feedback" class="fs-3" style="height: 2rem;"></p>
+                        
+                        <div id="puzzle-game-container">
+                            <div id="puzzle-grid-target">
+                            </div>
+                            
+                            <div id="puzzle-pieces-source">
+                            </div>
+                        </div>
+
+                        <button id="reset-puzzle-4-btn" class="quiz-btn bg-orange-500 shadow-orange-700 d-none mt-3">
+                            Ulangi Puzzle
+                        </button>
+                    </div>
+                </div>
+
+                <div class="page">
+					<div class="page-content flex-center-col text-center text-secondary" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                         <h2 class="text-black fs-2">Kamu Hebat!</h2>
+                         <p class="text-black fs-4 mb-4">Klik tombol di bawah untuk mencetak sertifikatmu.</p>
+                         <button id="print-certificate-btn" class="quiz-btn bg-success shadow-success-dark mt-4">
+                             <i class="fa-solid fa-certificate"></i> Cetak Sertifikat
+                         </button>
+                    </div>
+                    
+                    <div class="page-content back-side flex-center-col penulis-bg">
+						<h2 class="fs-2 text-primary-emphasis mt-2 mb-3 font-title">Penulis</h2>
+                        <img src="image/Bangbin.jpg" alt="Bangbin" class="object-fit-contain mb-3" style="border-radius: 50%; width: 8rem; height: 8rem;">
+                        <h3 class="fs-4 fw-medium text-blue-emphasis">Bintang Adhi Permana</h3>
+                        <p class="text-primary-emphasis fs-5 mt-3" style="max-width: 24rem;">
+                            Penulis adalah seorang pendidik yang berdedikasi untuk menciptakan media pembelajaran yang interaktif dan menyenangkan bagi anak-anak Indonesia.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="page">
+                    <div class="page-content flex-center-col gap-3" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+						<h2 class="fs-2 text-primary-emphasis mb-3 font-title">Daftar Pustaka</h2>                        
+                            <ul class="list-unstyled text-start space-y-1 ps-3 daftar-pustaka-list">
+								<li>Permana, Bangbin. (2025). *Konsep Buku Cerita Interaktif SD*. Jakarta.</li>
+								<li>Font Awesome. (2025). *Ikon Vektor*. Diakses dari https://fontawesome.com</li>
+								<li>Bootstrap. (2025). *CSS Framework*. Diakses dari https://getbootstrap.com</li>
+								<li>Google Fonts. (2025). *Fredoka Font Family*. Diakses dari https://fonts.google.com</li>
+								<li>Sound Informasi.(2025). Text to Speech. daiskes dari https://elevenlabs.io/</li>
+                                <li>
+                                    Google Gemini. (2025). *Aset Gambar Digital*. Generate dari https://gemini.ai
+                                </li>
+                                <li>
+                                    Pixabay. (2025). *Efek Suara dan Musik Latar*. Diakses dari https://pixabay.com/sound-effects/
+                                </li>
+							</ul>
+                    </div>
+
+                    <div class="page-content back-side cover flex-center-col text-white" style="background-image: url('image/bg2.png'); background-size: cover; background-position: center;">
+                         <h1 class="text-black fs-1 fw-bold font-title">SELESAI!</h1>
+						 <img src="image/favicon.ico" alt="Logo Kemdikbud" class="object-fit-contain mb-3" style="width: 8rem; height: 8rem;">
+                         <h2 class="text-black fs-3">Kamu Pintar!</h2>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="navigation-buttons">
+            <button id="prev-btn" class="nav-button">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="mute-btn" class="nav-button">
+                <i class="fas fa-volume-high"></i>
+            </button>
+            <button id="next-btn" class="nav-button">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL UNTUK NOTIFIKASI (Menggantikan Alert) -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true" style="z-index: 10000;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header bg-gradient-bangbin1 border-0 rounded-top-4">
+                    <h5 class="modal-title font-title text-primary-emphasis"><i class="fa-solid fa-info-circle"></i> Informasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center fs-4 py-4 text-dark">
+                    <p id="modal-message" class="mb-0 fw-medium">Pesan disini</p>
+                </div>
+                <div class="modal-footer justify-content-center border-0 pb-4">
+                    <button type="button" class="quiz-btn bg-primary text-white px-4" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-thumbs-up"></i> Oke
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="certificate-wrapper">
+        <div class="certificate-content">
+            <br>
+            <h1 class="cert-title">Sertifikat Penyelesaian</h1>
+            <br><br><br><br>
+            <p class="cert-subtitle">Diberikan kepada:</p>
+            <h2 id="cert-name" class="cert-name"></h2>
+            <br><br><br>
+            <p class="cert-body">
+                Telah berhasil menyelesaikan buku cerita interaktif
+                <br>
+                <strong>"Asiknya Beternak"</strong>
+                <br>
+                dengan Hebat!
+            </p>
+            <div class="cert-footer">
+                <img src="image/favicon.ico" alt="Logo" class="cert-logo">
+                <p>Direktorat SD Kemdikbud<br>Tahun 2025</p>
+            </div>
+        </div>
+    </div>
+
+    <audio id="sound-sapi" src="sound/Sapi.mp3" preload="auto"></audio>
+    <audio id="sound-domba" src="sound/Domba.mp3" preload="auto"></audio>
+    <audio id="sound-ayam" src="sound/Ayam.mp3" preload="auto"></audio>
+    <audio id="sound-kuda" src="sound/Kuda.mp3" preload="auto"></audio>
+    <audio id="sound-lebah" src="sound/Lebah.mp3" preload="auto"></audio>
+    <audio id="sound-bebek" src="sound/Bebek.mp3" preload="auto"></audio>
+
+    <audio id="info-sapi" src="sound/Bangbin-Sapi.mp3" preload="auto"></audio>
+    <audio id="info-domba" src="sound/Bangbin-Domba.mp3" preload="auto"></audio>
+    <audio id="info-ayam" src="sound/Bangbin-Ayam.mp3" preload="auto"></audio>
+    <audio id="info-kuda" src="sound/Bangbin-Kuda.mp3" preload="auto"></audio>
+    <audio id="info-lebah" src="sound/Bangbin-Lebah.mp3" preload="auto"></audio>
+    <audio id="info-bebek" src="sound/Bangbin-Bebek.mp3" preload="auto"></audio>
+
+    <audio id="sound-petunjuk1" src="sound/Petunjuk1.mp3" preload="auto"></audio>
+    <audio id="sound-petunjuk2" src="sound/Petunjuk2.mp3" preload="auto"></audio>
+    <audio id="sound-petunjuk3" src="sound/Petunjuk3.mp3" preload="auto"></audio>
+    <audio id="sound-petunjuk4" src="sound/Petunjuk4.mp3" preload="auto"></audio>
+
+    <audio id="sound-tutor1" src="sound/TutorGame1.mp3" preload="auto"></audio>
+    <audio id="sound-tutor2" src="sound/TutorGame2.mp3" preload="auto"></audio>
+    <audio id="sound-tutor3" src="sound/TutorGame3.mp3" preload="auto"></audio>
+    <audio id="sound-tutor4" src="sound/TutorGame4.mp3" preload="auto"></audio>
+    
+    <audio id="sound-click" src="sound/Klik.mp3" preload="auto"></audio>
+    <audio id="sound-wrong" src="sound/Wrong.mp3" preload="auto"></audio>
+    <audio id="sound-flip" src="sound/Balik.mp3" preload="auto"></audio>
+    <audio id="sound-bgm" src="sound/bgmusic.mp3" preload="auto" loop></audio>
+    <audio id="sound-menang" src="sound/Menang.mp3" preload="auto"></audio>
+
+    <!-- BOOTSTRAP JS DIPERLUKAN UNTUK MODAL -->
+    <script src="style/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const soundMap = {
+            'moo': document.getElementById('sound-sapi'),
+            'baa': document.getElementById('sound-domba'),
+            'cluck': document.getElementById('sound-ayam'),
+            'neigh': document.getElementById('sound-kuda'),
+            'buzz': document.getElementById('sound-lebah'),
+            'quack': document.getElementById('sound-bebek')
+        };
+        
+        const infoSoundMap = {
+            'sapi': document.getElementById('info-sapi'),
+            'domba': document.getElementById('info-domba'),
+            'ayam': document.getElementById('info-ayam'),
+            'kuda': document.getElementById('info-kuda'),
+            'lebah': document.getElementById('info-lebah'),
+            'bebek': document.getElementById('info-bebek')
+        };
+        
+        const petunjukSoundMap = {
+            'petunjuk1': document.getElementById('sound-petunjuk1'),
+            'petunjuk2': document.getElementById('sound-petunjuk2'),
+            'petunjuk3': document.getElementById('sound-petunjuk3'),
+            'petunjuk4': document.getElementById('sound-petunjuk4')
+        };
+
+        const tutorSoundMap = {
+            'tutor1': document.getElementById('sound-tutor1'),
+            'tutor2': document.getElementById('sound-tutor2'),
+            'tutor3': document.getElementById('sound-tutor3'),
+            'tutor4': document.getElementById('sound-tutor4')
+        };
+        
+        const animalImageMap = {
+            'sapi': 'image/Sapi.png',
+            'domba': 'image/Domba.png',
+            'ayam': 'image/Ayam.png',
+            'kuda': 'image/Kuda.png',
+            'lebah': 'image/Lebah.png',
+            'bebek': 'image/Bebek.png'
+        };
+        
+        const soundQuizMap = {
+             'moo': 'sapi',
+             'baa': 'domba',
+             'cluck': 'ayam',
+             'neigh': 'kuda',
+             'buzz': 'lebah',
+             'quack': 'bebek'
+        };
+
+        let soundClick, soundWrong, soundFlip, soundBgm, soundMenang; 
+
+
+        function stopAllSounds(except = null) {
+            const allSounds = [
+                ...Object.values(soundMap),
+                ...Object.values(infoSoundMap),
+                ...Object.values(petunjukSoundMap),
+                ...Object.values(tutorSoundMap),
+                soundClick, soundWrong, soundFlip, soundMenang 
+            ];
+            
+            allSounds.forEach(sound => {
+                if (sound && sound !== except) {
+                    sound.pause();
+                    sound.currentTime = 0;
+                }
+            });
+        }
+
+        function playSound(animalKey) { 
+            stopAllSounds();
+            
+            let audio;
+            if (soundMap[animalKey]) {
+                audio = soundMap[animalKey]; 
+            } else {
+                const soundKey = Object.keys(soundQuizMap).find(key => soundQuizMap[key] === animalKey);
+                if(soundKey && soundMap[soundKey]) {
+                    audio = soundMap[soundKey]; 
+                }
+            }
+
+            if (audio) {
+                audio.play().catch(e => {
+                    if (e.name !== 'NotAllowedError') {
+                         console.error("Gagal memutar audio:", e);
+                    }
+                });
+            }
+        }
+        
+        function playInfoSound(animal) { 
+            stopAllSounds();
+            
+           const infoSoundKeyMap = {
+                'sapi': document.getElementById('info-sapi'),
+                'domba': document.getElementById('info-domba'),
+                'ayam': document.getElementById('info-ayam'),
+                'kuda': document.getElementById('info-kuda'),
+                'lebah': document.getElementById('info-lebah'),
+                'bebek': document.getElementById('info-bebek')
+            };
+
+            const audio = infoSoundKeyMap[animal];
+            if (audio) {
+                audio.play().catch(e => {
+                    if (e.name !== 'NotAllowedError') {
+                         console.error("Gagal memutar audio info:", e);
+                    }
+                });
+            }
+        }
+        
+        function playPetunjukSound(soundKey) {
+            stopAllSounds();
+            const audio = petunjukSoundMap[soundKey];
+            if (audio) {
+                audio.play().catch(e => {
+                    if (e.name !== 'NotAllowedError') {
+                         console.error("Gagal memutar audio petunjuk:", e);
+                    }
+                });
+            }
+        }
+
+        function playTutorSound(soundKey) {
+            stopAllSounds();
+            const audio = tutorSoundMap[soundKey];
+            if (audio) {
+                audio.play().catch(e => {
+                    if (e.name !== 'NotAllowedError') {
+                            console.error("Gagal memutar audio tutorial:", e);
+                    }
+                });
+            }
+        }
+
+        function playClickSound() {
+            if (soundClick) {
+                soundClick.currentTime = 0;
+                soundClick.play().catch(e => {});
+            }
+        }
+        
+        function playWrongSound() {
+            if (soundWrong) {
+                soundWrong.currentTime = 0;
+                soundWrong.play().catch(e => {});
+            }
+        }
+
+        function playFlipSound() {
+            if (soundFlip) {
+                soundFlip.currentTime = 0;
+                soundFlip.play().catch(e => {});
+            }
+        }
+
+        function playWinSound() {
+            if (soundMenang) {
+                stopAllSounds(); 
+                soundMenang.currentTime = 0;
+                soundMenang.play().catch(e => {});
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            soundClick = document.getElementById('sound-click');
+            soundWrong = document.getElementById('sound-wrong');
+            soundFlip = document.getElementById('sound-flip');
+            soundBgm = document.getElementById('sound-bgm');
+            soundMenang = document.getElementById('sound-menang'); 
+            
+            const visitorNameInput = document.getElementById('visitor-name-input');
+            const saveNameBtn = document.getElementById('save-name-btn');
+            const nameSavedFeedback = document.getElementById('name-saved-feedback');
+            const printCertificateBtn = document.getElementById('print-certificate-btn');
+            const certNameEl = document.getElementById('cert-name');
+            const certificateWrapper = document.getElementById('certificate-wrapper');
+            
+            // ---------------------------------------------------------
+            // PERBAIKAN LOGIKA INPUT: Stop Event Bubbling ke Halaman Buku
+            // ---------------------------------------------------------
+            if (visitorNameInput) {
+                // Mencegah halaman terbalik saat input disentuh/diklik
+                const stopEvents = ['mousedown', 'touchstart', 'click', 'focus'];
+                stopEvents.forEach(evt => {
+                    visitorNameInput.addEventListener(evt, (e) => {
+                        e.stopPropagation(); 
+                        visitorNameInput.focus(); 
+                    }, { passive: false });
+                });
+            }
+
+            let visitorName = localStorage.getItem('visitorName') || '';
+
+            // ---------------------------------------------------------
+            // PERBAIKAN TOMBOL SIMPAN & MODAL
+            // ---------------------------------------------------------
+            if (saveNameBtn) {
+                saveNameBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Cegah halaman terbalik saat tombol ditekan
+                    playClickSound();
+                    
+                    const newName = visitorNameInput.value.trim();
+                    const modalEl = document.getElementById('notificationModal');
+                    const modalMsg = document.getElementById('modal-message');
+                    const modalBootstrap = new bootstrap.Modal(modalEl);
+
+                    if (newName) {
+                        visitorName = newName;
+                        localStorage.setItem('visitorName', visitorName);
+                        
+                        // Tampilkan Modal Sukses
+                        modalMsg.innerHTML = `Nama <strong>${visitorName}</strong> berhasil disimpan!`;
+                        modalMsg.classList.add('text-success');
+                        modalMsg.classList.remove('text-danger');
+                        modalBootstrap.show();
+                        
+                        if (nameSavedFeedback) {
+                            nameSavedFeedback.textContent = `Nama tersimpan: ${visitorName}`;
+                            nameSavedFeedback.classList.remove('text-danger');
+                            nameSavedFeedback.classList.add('text-success');
+                        }
+                    } else {
+                        // Tampilkan Modal Error
+                        modalMsg.innerHTML = "Nama tidak boleh kosong!";
+                        modalMsg.classList.add('text-danger');
+                        modalMsg.classList.remove('text-success');
+                        modalBootstrap.show();
+                    }
+                });
+            }
+
+            if (visitorName) {
+                if (visitorNameInput) visitorNameInput.value = visitorName;
+                if (nameSavedFeedback) {
+                    nameSavedFeedback.textContent = `Nama tersimpan: ${visitorName}`;
+                    nameSavedFeedback.classList.remove('text-danger');
+                    nameSavedFeedback.classList.add('text-success');
+                }
+            }
+
+            const muteBtn = document.getElementById('mute-btn');
+            const muteIcon = muteBtn.querySelector('i');
+            let isMuted = false;
+            
+            if (soundBgm) {
+                soundBgm.volume = 0.3; 
+            }
+
+            muteBtn.addEventListener('click', () => {
+                isMuted = !isMuted;
+                
+                if (soundBgm) {
+                    soundBgm.muted = isMuted;
+                }
+
+                if (isMuted) {
+                    muteIcon.classList.remove('fa-volume-high');
+                    muteIcon.classList.add('fa-volume-mute');
+                    if (soundBgm) soundBgm.pause(); 
+                } else {
+                    muteIcon.classList.remove('fa-volume-mute');
+                    muteIcon.classList.add('fa-volume-high');
+                    if (soundBgm) {
+                         soundBgm.play().catch(e => console.log("BGM play failed, user interaction needed."));
+                    }
+                }
+            });
+
+            function startAudioContext() {
+                if (!isMuted && soundBgm) {
+                    soundBgm.play().catch(e => console.log("BGM auto-play failed, waiting for interaction."));
+                }
+                document.body.removeEventListener('click', startAudioContext);
+                document.body.removeEventListener('touchend', startAudioContext);
+            }
+            document.body.addEventListener('click', startAudioContext);
+            document.body.addEventListener('touchend', startAudioContext);
+
+
+            const pages = document.querySelectorAll('.page');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            let currentPage = 0;
+            let isFlipping = false;
+            const totalPages = pages.length;
+
+            function updatePageZIndexes() {
+                pages.forEach((page, index) => {
+                    if (index < currentPage) {
+                        page.style.zIndex = index + 1;
+                    } else {
+                        page.style.zIndex = totalPages - index;
+                    }
+                });
+            }
+
+            function flipPage(direction) {
+                if (isFlipping) return;
+                
+                stopAllSounds(); 
+                playFlipSound();
+
+                if (direction === 'next') {
+                    if (currentPage >= totalPages) return; 
+
+                    isFlipping = true;
+                    const pageToFlip = pages[currentPage];
+                    pageToFlip.style.zIndex = totalPages + 1;
+                    pageToFlip.classList.add('flipped');
+                    currentPage++;
+
+                } else if (direction === 'prev') {
+                    if (currentPage <= 0) return; 
+
+                    isFlipping = true;
+                    currentPage--;
+                    const pageToFlip = pages[currentPage];
+                    pageToFlip.style.zIndex = totalPages + 1;
+                    pageToFlip.classList.remove('flipped');
+                }
+
+                setTimeout(() => {
+                    isFlipping = false;
+                    updatePageZIndexes();
+                }, 800); 
+            }
+
+            function goToPage(targetIndex) {
+                if (isFlipping) return;               
+                if (targetIndex === currentPage) {
+                    return; 
+                }
+                
+                stopAllSounds();               
+                playClickSound(); 
+
+                if (targetIndex === currentPage + 1) {
+                    flipPage('next');
+                } else if (targetIndex === currentPage - 1) {
+                    flipPage('prev');
+                } else {
+                    isFlipping = true;
+                    
+                    pages.forEach((page, index) => {
+                        if (index < targetIndex) {
+                            page.classList.add('flipped');
+                        } else {
+                            page.classList.remove('flipped');
+                        }
+                    });
+
+                    currentPage = targetIndex;
+
+                    setTimeout(() => {
+                        isFlipping = false;
+                        updatePageZIndexes();
+                    }, 300); 
+                }
+            }
+
+
+            prevBtn.addEventListener('click', () => {
+                playClickSound(); 
+                flipPage('prev');
+            });
+            nextBtn.addEventListener('click', () => {
+                playClickSound(); 
+                flipPage('next');
+            });
+
+            pages.forEach((page, index) => {
+                page.addEventListener('click', (e) => {
+                    if (e.target.closest('button') || e.target.closest('input') || e.target.closest('img[id$="-btn"]') || e.target.closest('img[onclick]') || e.target.closest('a') || e.target.closest('[draggable="true"]') || e.target.closest('.memory-card') || e.target.closest('.puzzle-piece-drag') || e.target.closest('.petunjuk-item') || e.target.closest('[id^="tutor-game-"]') || e.target.closest('.daftar-isi-item')) {
+                        return;
+                    }
+                    
+                    const isFlippedPage = page.classList.contains('flipped');
+                    if (isFlippedPage && index === currentPage - 1) {
+                         flipPage('prev');
+                    } else if (!isFlippedPage && index === currentPage) {
+                        flipPage('next');
+                    }
+                });
+            });
+
+            updatePageZIndexes();
+
+            document.querySelectorAll('.daftar-isi-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const targetPageStr = e.currentTarget.dataset.targetPage;
+                    if (targetPageStr) {
+                        const targetIndex = parseInt(targetPageStr, 10);
+                        goToPage(targetIndex);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.petunjuk-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    playClickSound(); 
+                    const soundKey = item.dataset.sound;
+                    if (soundKey) {
+                        playPetunjukSound(soundKey);
+                    }
+                });
+            });
+            
+           
+            if (printCertificateBtn) {
+                printCertificateBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    playClickSound();
+                    const nameToPrint = localStorage.getItem('visitorName') || 'Anak Hebat';
+                    if (certNameEl) certNameEl.textContent = nameToPrint;
+                    if (certificateWrapper) certificateWrapper.style.display = 'block';
+                    window.print();
+                });
+            }
+            window.onafterprint = () => {
+                if (certificateWrapper) certificateWrapper.style.display = 'none';
+            };
+
+            document.getElementById('cow-btn').addEventListener('click', () => {
+                playClickSound(); 
+                playInfoSound('sapi'); 
+                const milkDiv = document.getElementById('milk-interaction');
+                const milkFill = document.getElementById('milk-fill');
+                
+                milkDiv.classList.remove('d-none');
+                milkFill.classList.remove('milk-fill-anim'); 
+                void milkFill.offsetWidth; 
+                milkFill.classList.add('milk-fill-anim'); 
+            });
+
+            document.getElementById('sheep-btn').addEventListener('click', () => {
+                playClickSound(); 
+                playInfoSound('domba'); 
+                
+                // --- UPDATE: Ganti gambar Domba ke GIF durasi 8 detik ---
+                const sheepImg = document.getElementById('sheep-btn');
+                sheepImg.src = 'image/Domba.gif';
+                
+                // Kembalikan ke PNG setelah 8 detik
+                setTimeout(() => {
+                    sheepImg.src = 'image/Domba.png';
+                }, 8000);
+                // ------------------------------------------
+
+                const woolIcon = document.getElementById('wool-interaction');
+                woolIcon.classList.remove('d-none');
+                woolIcon.style.opacity = '1';
+                woolIcon.style.transform = 'translateY(-20px) rotate(-15deg)';
+                
+                setTimeout(() => { 
+                    woolIcon.style.opacity = '0';
+                    woolIcon.style.transform = 'translateY(0) rotate(0deg)';
+                    setTimeout(() => woolIcon.classList.add('d-none'), 500);
+                }, 1500);
+            });
+
+            const draggableEggs = document.querySelectorAll('.egg-draggable');
+            const eggBasket = document.getElementById('egg-basket');
+            const eggNest = document.getElementById('egg-nest');
+            const eggFeedback = document.getElementById('egg-feedback');
+            let eggsInBasket = 0;
+            const totalEggs = 3; 
+
+            function resetEggGame() {
+                if (!eggBasket || !eggNest) return; 
+                
+                eggBasket.innerHTML = ''; 
+                if(eggFeedback) eggFeedback.textContent = '';
+                eggsInBasket = 0;
+
+                const eggIds = ['egg1', 'egg2', 'egg3']; 
+                
+                eggIds.forEach(id => {
+                    const egg = document.getElementById(id);
+                    if (egg) { 
+                        egg.draggable = true;
+                        egg.classList.remove('placed', 'dragging');
+                        if (egg.parentElement !== eggNest) {
+                            eggNest.appendChild(egg);
+                        }
+                    }
+                });
+            }
+
+            draggableEggs.forEach(egg => {
+                egg.addEventListener('dragstart', (e) => {
+                    playSound('cluck'); 
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                    egg.classList.add('dragging');
+                    if (eggFeedback) eggFeedback.textContent = '';
+                });
+
+                egg.addEventListener('dragend', () => {
+                    egg.classList.remove('dragging');
+                });
+            });
+
+            if (eggBasket) {
+                eggBasket.addEventListener('dragover', (e) => {
+                    e.preventDefault(); 
+                    eggBasket.classList.add('drag-over');
+                });
+
+                eggBasket.addEventListener('dragleave', () => {
+                    eggBasket.classList.remove('drag-over');
+                });
+
+                eggBasket.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    eggBasket.classList.remove('drag-over');
+                    
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggableElement = document.getElementById(id);
+
+                    if (draggableElement && !draggableElement.classList.contains('placed')) {
+                        playClickSound(); 
+                        eggBasket.appendChild(draggableElement);
+                        draggableElement.draggable = false;
+                        draggableElement.classList.add('placed');
+                        eggsInBasket++;
+
+                        if (eggsInBasket === totalEggs) {
+                            if (eggFeedback) eggFeedback.textContent = "Hebat! Semua telur aman!";
+                            setTimeout(resetEggGame, 3000); 
+                        }
+                    }
+                });
+            }
+            
+            document.getElementById('horse-btn').addEventListener('click', (e) => {
+                playClickSound(); 
+                playInfoSound('kuda'); 
+                const horse = e.currentTarget;
+                horse.classList.add('horse-run-anim');
+                setTimeout(() => horse.classList.remove('horse-run-anim'), 1000);
+            });
+            
+            document.getElementById('bee-btn').addEventListener('click', (e) => {
+                playClickSound(); 
+                playInfoSound('lebah'); 
+                const bee = e.currentTarget;
+                bee.classList.add('bee-fly-anim');
+                setTimeout(() => bee.classList.remove('bee-fly-anim'), 500);
+            });
+
+            document.getElementById('duck-btn').addEventListener('click', () => {
+                playClickSound(); 
+                playInfoSound('bebek'); 
+
+                // --- UPDATE: Ganti gambar Bebek ke GIF durasi 8 detik ---
+                const duckImg = document.getElementById('duck-btn');
+                duckImg.src = 'image/Bebek.gif';
+                
+                // Kembalikan ke PNG setelah 8 detik
+                setTimeout(() => {
+                    duckImg.src = 'image/Bebek.png';
+                }, 8000);
+                // ------------------------------------------
+
+                const splash = document.getElementById('water-splash');
+                splash.classList.remove('d-none');
+                splash.classList.add('bee-fly-anim'); 
+                setTimeout(() => {
+                    splash.classList.add('d-none');
+                    splash.classList.remove('bee-fly-anim');
+                }, 500);
+            });
+
+            document.getElementById('tutor-game-1')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                playClickSound(); 
+                playTutorSound('tutor1');
+            });
+            document.getElementById('tutor-game-2')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                playClickSound(); 
+                playTutorSound('tutor2');
+            });
+            document.getElementById('tutor-game-3')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                playClickSound(); 
+                playTutorSound('tutor3');
+            });
+            document.getElementById('tutor-game-4')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                playClickSound(); 
+                playTutorSound('tutor4');
+            });
+
+
+            const soundQuizQuestions = [
+                { sound: 'moo', options: ['sapi', 'domba', 'ayam'], answer: 'sapi' },
+                { sound: 'cluck', options: ['kuda', 'ayam', 'bebek'], answer: 'ayam' },
+                { sound: 'neigh', options: ['lebah', 'kuda', 'sapi'], answer: 'kuda' },
+                { sound: 'buzz', options: ['domba', 'bebek', 'lebah'], answer: 'lebah' }
+            ];
+            let currentSoundQuestion = 0;
+            let soundQuizInProgress = true;
+
+            const playQuizSoundBtn = document.getElementById('play-quiz-sound-btn');
+            const quizOptionsContainer = document.getElementById('quiz-options-container');
+            const quizFeedback = document.getElementById('quiz-feedback');
+            const nextQuizBtn = document.getElementById('next-quiz-btn');
+            
+            const spellCheckContainer = document.getElementById('spell-check-container');
+            const spellLabel = document.getElementById('spell-label');
+            const spellInput = document.getElementById('spell-input');
+            const spellCheckBtn = document.getElementById('spell-check-btn');
+            const spellFeedback = document.getElementById('spell-feedback');
+
+            function loadSoundQuestion(index) {
+                if (!quizFeedback) return; 
+
+                if (index >= soundQuizQuestions.length) {
+                    quizFeedback.textContent = "Kuis 1 Selesai, Hebat!";
+                    quizFeedback.className = "fs-4 text-success";
+                    playQuizSoundBtn.classList.add('d-none');
+                    quizOptionsContainer.classList.add('d-none');
+                    spellCheckContainer.classList.add('d-none'); 
+                    nextQuizBtn.textContent = "Ulangi Kuis Suara";
+                    nextQuizBtn.classList.remove('d-none');
+                    soundQuizInProgress = false;
+                    playWinSound(); 
+                    return;
+                }
+
+                soundQuizInProgress = true;
+                const question = soundQuizQuestions[index];
+                
+                playQuizSoundBtn.classList.remove('d-none');
+                quizOptionsContainer.classList.remove('d-none');
+                spellCheckContainer.classList.add('d-none'); 
+                spellFeedback.textContent = "";
+                spellInput.value = "";
+                
+                quizFeedback.textContent = "";
+                nextQuizBtn.classList.add('d-none');
+                nextQuizBtn.textContent = "Soal Berikutnya";
+
+                playQuizSoundBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    playClickSound(); 
+                    playSound(question.sound);
+                };
+                
+                quizOptionsContainer.innerHTML = '';
+                question.options.forEach((animal, i) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = 'quiz-option';
+                    optionBtn.dataset.animal = animal;
+                    
+                    const imgPath = animalImageMap[animal];
+                    optionBtn.innerHTML = `<img src="${imgPath}" alt="${animal}">`;
+                    
+                    optionBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        playClickSound(); 
+                        checkSoundAnswer(animal, question.answer, optionBtn);
+                    };
+                    quizOptionsContainer.appendChild(optionBtn);
+                });
+            }
+
+            function setupSpellingQuiz(animalName) {
+                playQuizSoundBtn.classList.add('d-none');
+                quizOptionsContainer.classList.add('d-none');
+                
+                let hint = animalName[0].toUpperCase() + ' ' + '_ '.repeat(animalName.length - 1).trim();
+                spellLabel.textContent = `Ketik: ${hint}`;
+                
+                spellInput.value = '';
+                spellFeedback.textContent = '';
+                
+                spellCheckContainer.classList.remove('d-none');
+                
+                // Stop propagation on spell input too
+                spellInput.addEventListener('mousedown', e => e.stopPropagation());
+                spellInput.addEventListener('touchstart', e => e.stopPropagation());
+                spellInput.focus();
+
+                spellCheckBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    const userInput = spellInput.value.trim().toLowerCase();
+                    if (userInput === animalName) {
+                        playClickSound();
+                        spellFeedback.textContent = "Tepat Sekali!";
+                        spellFeedback.className = "fs-5 text-success";
+                        
+                        setTimeout(() => {
+                            spellCheckContainer.classList.add('d-none');
+                            nextQuizBtn.classList.remove('d-none');
+                        }, 1000); 
+                    } else {
+                        playWrongSound();
+                        spellFeedback.textContent = 'Belum Tepat! Coba lagi.';
+                        spellFeedback.className = "fs-5 text-danger";
+                    }
+                };
+                
+                spellInput.onkeyup = (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault(); 
+                        spellCheckBtn.click();
+                    }
+                };
+            }
+
+            function checkSoundAnswer(selected, correct, btn) {
+                if (!soundQuizInProgress) return;
+                soundQuizInProgress = false; 
+
+                const allOptions = quizOptionsContainer.querySelectorAll('.quiz-option');
+                allOptions.forEach(opt => {
+                    opt.disabled = true; 
+                    if (opt.dataset.animal === correct) {
+                        opt.classList.add('correct');
+                    }
+                });
+
+                if (selected === correct) {
+                    quizFeedback.textContent = "Benar!";
+                    quizFeedback.className = "fs-4 text-success";
+                    
+                    setTimeout(() => {
+                        quizFeedback.textContent = ""; 
+                        setupSpellingQuiz(correct); 
+                    }, 1200); 
+                    
+                } else {
+                    playWrongSound(); 
+                    quizFeedback.textContent = "Coba Lagi Nanti!";
+                    quizFeedback.className = "fs-4 text-danger";
+                    btn.classList.add('wrong');
+                    nextQuizBtn.classList.remove('d-none');
+                }
+            }
+
+            if(nextQuizBtn) {
+                nextQuizBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    playClickSound(); 
+                    if (nextQuizBtn.textContent === "Ulangi Kuis Suara") {
+                        currentSoundQuestion = 0;
+                    } else {
+                        currentSoundQuestion++;
+                    }
+                    loadSoundQuestion(currentSoundQuestion);
+                });
+            }
+            
+            const animalsContainer = document.getElementById('puzzle-animals-container');
+            const shadowsContainer = document.getElementById('puzzle-shadows-container');
+            const puzzleFeedback = document.getElementById('puzzle-feedback');
+            const resetPuzzleBtn = document.getElementById('reset-puzzle-btn');
+            
+            let selectedAnimalBtn = null;
+            let matchedPairs = 0;
+            const totalPairs = 3; 
+
+            function initPuzzle() {
+                if (!shadowsContainer || !animalsContainer) return; 
+
+                const allAnimals = ['sapi', 'ayam', 'domba', 'lebah', 'kuda', 'bebek'];
+                allAnimals.sort(() => Math.random() - 0.5);
+                const selectedAnimals = allAnimals.slice(0, 3); 
+
+                animalsContainer.innerHTML = '';
+                shadowsContainer.innerHTML = '';
+
+                let animalButtons = [];
+                let nameButtons = [];
+
+                selectedAnimals.forEach(animal => {
+                    const animalBtn = document.createElement('button');
+                    animalBtn.className = 'puzzle-piece animal';
+                    animalBtn.dataset.match = animal;
+                    animalBtn.innerHTML = `<img src="${animalImageMap[animal]}" alt="${animal}">`;
+                    animalButtons.push(animalBtn);
+
+                    const nameBtn = document.createElement('button');
+                    nameBtn.className = 'puzzle-piece puzzle-product'; 
+                    nameBtn.dataset.match = animal;
+                    nameBtn.textContent = animal.toUpperCase(); 
+                    nameButtons.push(nameBtn);
+                });
+
+                nameButtons.sort(() => Math.random() - 0.5);
+                animalButtons.forEach(btn => animalsContainer.appendChild(btn));
+                nameButtons.forEach(btn => shadowsContainer.appendChild(btn));
+
+                matchedPairs = 0;
+                selectedAnimalBtn = null;
+                if (puzzleFeedback) puzzleFeedback.textContent = "";
+                if (resetPuzzleBtn) resetPuzzleBtn.classList.add('d-none');
+            }
+
+            if (animalsContainer) {
+                animalsContainer.addEventListener('click', (e) => {
+                    const animalBtn = e.target.closest('.puzzle-piece.animal');
+                    if (!animalBtn || animalBtn.classList.contains('matched')) return;
+                    
+                    e.stopPropagation();
+                    playClickSound(); 
+
+                    if (animalBtn === selectedAnimalBtn) {
+                        animalBtn.classList.remove('selected');
+                        selectedAnimalBtn = null;
+                        return;
+                    }
+
+                    if (selectedAnimalBtn) {
+                        selectedAnimalBtn.classList.remove('selected');
+                    }
+
+                    selectedAnimalBtn = animalBtn;
+                    selectedAnimalBtn.classList.add('selected');
+                    if(puzzleFeedback) puzzleFeedback.textContent = "";
+                });
+            }
+
+            if (shadowsContainer) {
+                shadowsContainer.addEventListener('click', (e) => {
+                    const nameBtn = e.target.closest('.puzzle-piece.puzzle-product');
+                    if (!nameBtn || nameBtn.classList.contains('matched') || !selectedAnimalBtn) return;
+                    
+                    e.stopPropagation();
+                    playClickSound(); 
+
+                    if (nameBtn.dataset.match === selectedAnimalBtn.dataset.match) {
+                        nameBtn.classList.add('matched');
+                        selectedAnimalBtn.classList.add('matched');
+                        nameBtn.disabled = true;
+                        selectedAnimalBtn.disabled = true;
+                        selectedAnimalBtn = null;
+                        matchedPairs++;
+                        if(puzzleFeedback) puzzleFeedback.textContent = "Cocok!";
+                        if(puzzleFeedback) puzzleFeedback.className = "fs-4 text-success";
+                    } else {
+                        playWrongSound(); 
+                        if(puzzleFeedback) puzzleFeedback.textContent = "Bukan!";
+                        if(puzzleFeedback) puzzleFeedback.className = "fs-4 text-danger";
+                        if(selectedAnimalBtn) selectedAnimalBtn.classList.remove('selected');
+                        selectedAnimalBtn = null;
+                    }
+
+                    if (matchedPairs === totalPairs) {
+                        if(puzzleFeedback) puzzleFeedback.textContent = "Hebat, Selesai!";
+                        if(resetPuzzleBtn) resetPuzzleBtn.classList.remove('d-none');
+                        playWinSound(); 
+                    }
+                });
+            }
+            
+            if (resetPuzzleBtn) {
+                resetPuzzleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    playClickSound(); 
+                    initPuzzle();
+                });
+            }
+
+            const memoryGrid = document.getElementById('memory-grid');
+            const memoryFeedback = document.getElementById('memory-feedback');
+            const resetMemoryBtn = document.getElementById('reset-memory-btn');
+
+            const memoryAnimals = Object.keys(animalImageMap); 
+            let flippedCards = [];
+            let matchedMemoryPairs = 0;
+            let lockBoard = false;
+
+            function createMemoryBoard() {
+                if (!memoryGrid) return; 
+
+                matchedMemoryPairs = 0;
+                lockBoard = false;
+                flippedCards = [];
+                if (memoryFeedback) memoryFeedback.textContent = '';
+                if (resetMemoryBtn) resetMemoryBtn.classList.add('d-none');
+                memoryGrid.innerHTML = '';
+
+                const cardData = [];
+                memoryAnimals.forEach(animal => {
+                    cardData.push({ type: 'img', value: animal, match: animal });
+                    cardData.push({ type: 'text', value: animal.toUpperCase(), match: animal });
+                });
+                
+                cardData.sort(() => Math.random() - 0.5);
+
+                cardData.forEach(cardItem => {
+                    const card = document.createElement('div');
+                    card.className = 'memory-card';
+                    card.dataset.animal = cardItem.match; 
+
+                    const imgPath = animalImageMap[cardItem.match]; 
+                    
+                    let cardFrontHTML = '';
+                    if (cardItem.type === 'img') {
+                        cardFrontHTML = `<img src="${imgPath}" alt="${cardItem.value}">`;
+                    } else {
+                        cardFrontHTML = `<span style="font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.1rem; text-align: center; color: #1e293b;">${cardItem.value}</span>`;
+                    }
+                    
+                    card.innerHTML = `
+                        <div class="card-face card-front" style="display:flex; align-items:center; justify-content:center; padding: 0.5rem;">
+                            ${cardFrontHTML}
+                        </div>
+                        <div class="card-face card-back"><i class="fa-solid fa-question"></i></div>
+                    `;
+                    
+                    card.addEventListener('click', flipCard);
+                    memoryGrid.appendChild(card);
+                });
+            }
+
+            function flipCard(e) {
+                if(e) e.stopPropagation();
+                if (lockBoard) return;
+                if (this === flippedCards[0]) return; 
+                if (this.classList.contains('matched')) return; 
+                
+                playClickSound(); 
+
+                this.classList.add('flipped');
+                flippedCards.push(this);
+
+                if (flippedCards.length === 2) {
+                    lockBoard = true;
+                    checkForMatch();
+                }
+            }
+
+            function checkForMatch() {
+                const [card1, card2] = flippedCards;
+                const isMatch = card1.dataset.animal === card2.dataset.animal;
+
+                if (isMatch) {
+                    disableCards(card1, card2);
+                } else {
+                    unflipCards(card1, card2);
+                }
+            }
+
+			function disableCards(card1, card2) {
+                const icon1 = card1.querySelector('.card-back i');
+                const icon2 = card2.querySelector('.card-back i');
+                
+                if (icon1) {
+                    icon1.classList.remove('fa-question');
+                    icon1.classList.add('fa-check');
+                }
+                if (icon2) {
+                    icon2.classList.remove('fa-question');
+                    icon2.classList.add('fa-check');
+                }
+
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                
+                matchedMemoryPairs++;
+                flippedCards = [];
+                lockBoard = false;
+
+                if (matchedMemoryPairs === memoryAnimals.length) {
+                    if (memoryFeedback) memoryFeedback.textContent = 'Hebat, Selesai!';
+                    if (resetMemoryBtn) resetMemoryBtn.classList.remove('d-none');
+                    playWinSound(); 
+                }
+            }
+
+            function unflipCards(card1, card2) {
+                playWrongSound(); 
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                    lockBoard = false;
+                }, 1000); 
+            }
+
+            if (resetMemoryBtn) {
+                resetMemoryBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    playClickSound(); 
+                    createMemoryBoard();
+                });
+            }
+            
+            
+            const puzzleGridTarget = document.getElementById('puzzle-grid-target');
+            const puzzlePiecesSource = document.getElementById('puzzle-pieces-source');
+            const puzzle4Feedback = document.getElementById('puzzle-4-feedback');
+            const resetPuzzle4Btn = document.getElementById('reset-puzzle-4-btn');
+            
+            const puzzle4Animals = ['sapi', 'ayam', 'lebah'];
+            const piecePositions = ['0% 0%', '100% 0%', '0% 100%', '100% 100%']; 
+            let draggedPuzzlePiece = null;
+            let correctPieces = 0;
+
+            function initGame4Puzzle() {
+                if (!puzzleGridTarget || !puzzlePiecesSource) return;
+
+                correctPieces = 0;
+                puzzleGridTarget.innerHTML = '';
+                puzzlePiecesSource.innerHTML = '';
+                if (puzzle4Feedback) puzzle4Feedback.textContent = '';
+                if (resetPuzzle4Btn) resetPuzzle4Btn.classList.add('d-none');
+
+                const randomAnimal = puzzle4Animals[Math.floor(Math.random() * puzzle4Animals.length)];
+                const imgUrl = animalImageMap[randomAnimal];
+                
+                let pieces = [];
+                for (let i = 0; i < 4; i++) {
+                    const dropZone = document.createElement('div');
+                    dropZone.className = 'puzzle-drop-zone';
+                    dropZone.dataset.pos = i;
+                    puzzleGridTarget.appendChild(dropZone);
+                    
+                    const piece = document.createElement('div');
+                    piece.className = 'puzzle-piece-drag';
+                    piece.draggable = true;
+                    piece.dataset.pos = i;
+                    piece.style.backgroundImage = `url(${imgUrl})`;
+                    piece.style.backgroundPosition = piecePositions[i];
+                    
+                    pieces.push(piece);
+                }
+                
+                pieces.sort(() => Math.random() - 0.5);
+                pieces.forEach(piece => {
+                    puzzlePiecesSource.appendChild(piece);
+                    addDragListenersToPiece(piece);
+                });
+                
+                document.querySelectorAll('.puzzle-drop-zone').forEach(zone => {
+                     addDropListenersToZone(zone);
+                });
+            }
+            
+            function addDragListenersToPiece(piece) {
+                piece.addEventListener('dragstart', (e) => {
+                    draggedPuzzlePiece = piece;
+                    e.dataTransfer.setData('text/plain', piece.dataset.pos);
+                    setTimeout(() => piece.classList.add('dragging'), 0);
+                    if (puzzle4Feedback) puzzle4Feedback.textContent = '';
+                });
+                
+                piece.addEventListener('dragend', () => {
+                    if (draggedPuzzlePiece) { 
+                        draggedPuzzlePiece.classList.remove('dragging');
+                    }
+                    draggedPuzzlePiece = null;
+                });
+            }
+            
+            function addDropListenersToZone(zone) {
+                 zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (!zone.hasChildNodes()) { 
+                        zone.classList.add('drag-over');
+                    }
+                });
+                
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drag-over');
+                });
+                
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    
+                    if (zone.hasChildNodes() || !draggedPuzzlePiece) return; 
+                    
+                    const droppedPos = draggedPuzzlePiece.dataset.pos;
+                    const targetPos = zone.dataset.pos;
+                    
+                    if (droppedPos === targetPos) {
+                        playClickSound(); 
+                        zone.appendChild(draggedPuzzlePiece);
+                        draggedPuzzlePiece.draggable = false;
+                        draggedPuzzlePiece.classList.add('placed');
+                        draggedPuzzlePiece.classList.remove('dragging');
+                        zone.style.border = 'none'; 
+                        
+                        correctPieces++;
+                        if (puzzle4Feedback) {
+                            puzzle4Feedback.textContent = "Benar!";
+                            puzzle4Feedback.className = "fs-4 text-success";
+                        }
+                        
+                        if (correctPieces === 4) {
+                            if (puzzle4Feedback) puzzle4Feedback.textContent = "Hebat, Selesai!";
+                            if (resetPuzzle4Btn) resetPuzzle4Btn.classList.remove('d-none');
+                            playWinSound(); 
+                        }
+                        
+                    } else {
+                         playWrongSound(); 
+                         if (puzzle4Feedback) {
+                            puzzle4Feedback.textContent = "Bukan disitu!";
+                            puzzle4Feedback.className = "fs-4 text-danger"; 
+                        }
+                    }
+                });
+            }
+            
+            if (resetPuzzle4Btn) {
+                resetPuzzle4Btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    playClickSound(); 
+                    initGame4Puzzle();
+                });
+            }
+
+            loadSoundQuestion(currentSoundQuestion);
+            initPuzzle();
+            createMemoryBoard();
+            initGame4Puzzle();
+            resetEggGame(); 
+
+        });
+    </script>
+</body>
+</html>
